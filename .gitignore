@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/macos,node,visualstudiocode
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,node,visualstudiocode
+# Created by https://www.toptal.com/developers/gitignore/api/nuxtjs,node,visualstudiocode,macos
+# Edit at https://www.toptal.com/developers/gitignore?templates=nuxtjs,node,visualstudiocode,macos
 
 ### macOS ###
 # General
@@ -174,6 +174,17 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
+### NuxtJS ###
+# Generated dirs
+.nuxt-*
+.output
+.gen
+
+# Node dependencies
+node_modules
+
+# System files
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
@@ -193,4 +204,4 @@ dist
 .history
 .ionide
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,node,visualstudiocode
+# End of https://www.toptal.com/developers/gitignore/api/nuxtjs,node,visualstudiocode,macos
