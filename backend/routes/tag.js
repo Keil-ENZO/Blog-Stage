@@ -2,14 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
 const Tag = require("../models/Tag");
-
-// Middleware d'authentification (exemple)
-const authenticate = (req, res, next) => {
-  const token = req.headers["authorization"];
-  if (!token) return res.status(401).send("Unauthorized");
-  if (token !== "VALID_TOKEN") return res.status(403).send("Forbidden");
-  next();
-};
+const authenticate = require("../authenticate");
 
 // Route GET pour récupérer tous les tags
 router.get("/", async (req, res) => {
@@ -26,7 +19,7 @@ router.get("/", async (req, res) => {
 router.post(
   "/",
   [body("name").notEmpty().withMessage("Name is required")],
-  authenticate, // Assure-toi que ce middleware est appliqué
+  authenticate,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

@@ -9,13 +9,11 @@ const ArticleSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  tags: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Tag",
-      required: true,
-    },
-  ],
+  tags: {
+    type: Array,
+    required: true,
+  },
+
   created: {
     type: Date,
     default: Date.now,
