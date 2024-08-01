@@ -22,14 +22,6 @@ const CompanySchema = new moogoose.Schema({
     type: String,
     required: true,
   },
-  //   email: {
-  //     type: String,
-  //     required: true,
-  //   },
-  //   phone: {
-  //     type: String,
-  //     required: true,
-  //   },
 });
 
 module.exports = moogoose.model("Company", CompanySchema);
