@@ -4,7 +4,6 @@ const { body, validationResult } = require("express-validator");
 const Article = require("../models/Article");
 const authenticate = require("../authenticate");
 
-// Route GET pour récupérer tous les articles
 router.get("/", async (req, res) => {
   try {
     const articles = await Article.find();
@@ -15,7 +14,19 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Route POST pour créer un nouvel article
+router.get("/:id", async (req, res) => {
+  try {
+    const article = await Article.findById(req.params.id);
+    if (!article) {
+      return res.status(404).json({ msg: "Article not found" });
+    }
+    res.json(article);
+  } catch (err) {
+    console.error("Error fetching article:", err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 router.post(
   "/",
   [
@@ -30,12 +41,13 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { title, content, tags } = req.body;
+    const { title, content, tags, img } = req.body;
     try {
       const newArticle = new Article({
         title,
         content,
         tags,
+        img,
         created: new Date(),
         updated: new Date(),
       });

@@ -4,7 +4,6 @@ const { body, validationResult } = require("express-validator");
 const Tag = require("../models/Tag");
 const authenticate = require("../authenticate");
 
-// Route GET pour récupérer tous les tags
 router.get("/", async (req, res) => {
   try {
     const tags = await Tag.find();
@@ -15,7 +14,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Route POST pour créer un nouveau tag
 router.post(
   "/",
   [body("name").notEmpty().withMessage("Name is required")],

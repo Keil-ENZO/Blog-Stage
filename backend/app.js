@@ -47,6 +47,7 @@ app.get("/csrf-token", (req, res) => {
 // Routes API
 app.use("/api/article", require("./routes/article"));
 app.use("/api/tag", require("./routes/tag"));
+app.use("/api/company", require("./routes/company"));
 
 // Middleware for error handling
 app.use((err, req, res, next) => {
