@@ -729,6 +729,13 @@
     "@floating-ui/utils" "^0.2.4"
     vue-demi ">=0.13.0"
 
+"@headlessui/vue@^1.7.22":
+  version "1.7.22"
+  resolved "https://registry.yarnpkg.com/@headlessui/vue/-/vue-1.7.22.tgz#8d55a3a670c3d48beb660b7c47a7a8ff76caacfe"
+  integrity sha512-Hoffjoolq1rY+LOfJ+B/OvkhuBXXBFgd8oBlN+l1TApma2dB0En0ucFZrwQtb33SmcCqd32EQd0y07oziXWNYg==
+  dependencies:
+    "@tanstack/vue-virtual" "^3.0.0-beta.60"
+
 "@internationalized/date@^3.5.4":
   version "3.5.4"
   resolved "https://registry.npmjs.org/@internationalized/date/-/date-3.5.4.tgz"
@@ -1360,6 +1367,18 @@
   version "3.8.3"
   resolved "https://registry.npmjs.org/@tanstack/virtual-core/-/virtual-core-3.8.3.tgz"
   integrity sha512-vd2A2TnM5lbnWZnHi9B+L2gPtkSeOtJOAw358JqokIH1+v2J7vUAzFVPwB/wrye12RFOurffXu33plm4uQ+JBQ==
+
+"@tanstack/virtual-core@3.8.4":
+  version "3.8.4"
+  resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.8.4.tgz#0ff84b6a0e4b394335cf7ccf759c36b58cbd02eb"
+  integrity sha512-iO5Ujgw3O1yIxWDe9FgUPNkGjyT657b1WNX52u+Wv1DyBFEpdCdGkuVaky0M3hHFqNWjAmHWTn4wgj9rTr7ZQg==
+
+"@tanstack/vue-virtual@^3.0.0-beta.60":
+  version "3.8.5"
+  resolved "https://registry.yarnpkg.com/@tanstack/vue-virtual/-/vue-virtual-3.8.5.tgz#875e4a293fe76893476fe6d24068ba4a9842c6fd"
+  integrity sha512-JBHw3xFUslYgrbvNlCYtTWwFo8zjzRs7c2rs6B4JKFXWyP5yHuoeivgQgeZ34t6O6lJTNqc/K4ccmmcmKqpMPA==
+  dependencies:
+    "@tanstack/virtual-core" "3.8.4"
 
 "@tanstack/vue-virtual@^3.8.1":
   version "3.8.3"

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <p>Test.vue</p>
+    <article>Contact.vue</article>
     <Button variant="destructive">Click me</Button>
   </section>
 </template>
