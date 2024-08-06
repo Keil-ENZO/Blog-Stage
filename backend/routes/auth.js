@@ -5,16 +5,6 @@ const User = require("../models/User");
 const authenticate = require("../authenticate");
 const bcrypt = require("bcrypt");
 
-router.get("/", async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    console.error("Error fetching users:", err.message);
-    res.status(500).send("Server Error");
-  }
-});
-
 router.post(
   "/",
   [

@@ -17,6 +17,10 @@ const ArticleSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  likes: {
+    type: Number,
+    default: 0,
+  },
   created: {
     type: Date,
     default: Date.now,

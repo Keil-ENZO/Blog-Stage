@@ -48,6 +48,7 @@ router.post(
         content,
         tags,
         img,
+        likes,
         created: new Date(),
         updated: new Date(),
       });
