@@ -14,4 +14,15 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: "2024-07-16",
+
+  // Ajoutez cette section pour vérifier que les fichiers statiques sont correctement servis
+  build: {
+    // Assurez-vous que les fichiers de build sont générés correctement
+  },
+
+  generate: {
+    // Vous pouvez ajouter des configurations spécifiques ici si nécessaire
+    // Par exemple, pour exclure certaines routes
+    exclude: [],
+  },
 });

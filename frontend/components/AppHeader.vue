@@ -1,5 +1,5 @@
 <template>
-  <Disclosure as="nav" class="bg-muted" v-slot="{ open }">
+  <Disclosure as="nav" class="bg-background" v-slot="{ open }">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-16 justify-between">
         <div class="flex">
@@ -32,20 +32,30 @@
                 :to="item.link"
                 :class="[
                   item.current
-                    ? 'bg-gray-900 text-primary'
-                    : 'text-ring hover:bg-gray-700 hover:text-primary',
+                    ? 'bg-muted text-primary'
+                    : 'bg-background hover:bg-accent hover:text-accent-foreground',
                   'rounded-md px-3 py-2 text-sm font-medium',
                 ]"
-                >{{ item.name }}</NuxtLink
               >
+                {{ item.name }}
+              </NuxtLink>
             </li>
           </div>
         </div>
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <Button>
+            <Button v-if="isAuthenticated" class="mx-2">
               <Plus class="w-4 h-4 mr-2" />
               New Article
+            </Button>
+            <Button
+              v-if="isAuthenticated"
+              @click="logout"
+              class="mx-2"
+              variant="outline"
+              size="icon"
+            >
+              <LogOut class="w-4 h-4" />
             </Button>
           </div>
         </div>
@@ -62,13 +72,14 @@
           <NuxtLink
             :class="[
               item.current
-                ? 'bg-gray-900 text-primary'
-                : 'text-ring hover:bg-gray-700 hover:text-primary',
+                ? 'bg-muted text-primary'
+                : 'bg-background hover:bg-accent hover:text-accent-foreground',
               'block rounded-md px-3 py-2 text-base font-medium',
             ]"
             :to="item.link"
-            >{{ item.name }}</NuxtLink
           >
+            {{ item.name }}
+          </NuxtLink>
         </li>
       </div>
     </DisclosurePanel>
@@ -77,9 +88,31 @@
 
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import { Menu, Plus, X } from "lucide-vue-next";
-import { computed, ref } from "vue";
+import { LogOut, Menu, Plus, X } from "lucide-vue-next";
+import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import { getUserRole } from "../utils/auth.js";
+
+const userRole = ref(null);
+const isAuthenticated = ref(false);
+
+onMounted(() => {
+  const token = localStorage.getItem("token");
+  isAuthenticated.value = !!token; // Vérifie si le token est présent
+  if (isAuthenticated.value) {
+    userRole.value = getUserRole(); // Décode le token pour obtenir le rôle
+  }
+});
+
+const logout = async () => {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("token");
+    isAuthenticated.value = false; // Met à jour le statut de l'authentification
+    // Redirection après déconnexion
+    window.location.href = "/"; // Assurez-vous que la route existe
+    console.log("User logged out");
+  }
+};
 
 const route = useRoute();
 const currentPath = computed(() => route.path);

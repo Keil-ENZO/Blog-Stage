@@ -15,6 +15,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const result = await User.deleteOne({ _id: req.params.id });
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+    res.json({ msg: "User removed" });
+  } catch (err) {
+    console.error("Error deleting user:", err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 router.post(
   "/",
   [
@@ -28,7 +41,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { username, password } = req.body;
+    const { username, password, role } = req.body;
 
     try {
       const salt = await bcrypt.genSalt(10);
@@ -37,6 +50,7 @@ router.post(
       const newUser = new User({
         username,
         password: hashedPassword,
+        role,
       });
       const user = await newUser.save();
       res.json(user);
@@ -46,5 +60,4 @@ router.post(
     }
   }
 );
-
 module.exports = router;

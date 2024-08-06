@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
 const User = require("../models/User");
-const authenticate = require("../authenticate");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret"; // Assurez-vous de définir cette variable dans .env
 
 router.post(
   "/",
@@ -11,7 +13,6 @@ router.post(
     body("username").notEmpty().withMessage("Username is required"),
     body("password").notEmpty().withMessage("Password is required"),
   ],
-  authenticate,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -21,17 +22,34 @@ router.post(
     const { username, password } = req.body;
 
     try {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
+      const user = await User.findOne({ username });
 
-      const newUser = new User({
-        username,
-        password: hashedPassword,
+      // Vérifiez si l'utilisateur existe et a le rôle d'admin
+      if (!user || user.role !== "admin") {
+        return res
+          .status(400)
+          .send("Invalid credentials or unauthorized access");
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        return res.status(400).send("Invalid credentials");
+      }
+
+      const token = jwt.sign(
+        { userId: user._id, role: user.role },
+        JWT_SECRET,
+        { expiresIn: "1h" }
+      );
+
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
       });
-      const user = await newUser.save();
-      res.json(user);
+      res.status(200).json({ token }); // Envoyer le token dans la réponse JSON
     } catch (err) {
-      console.error("Error saving user:", err.message);
+      console.error("Error during login:", err.message);
       res.status(500).send("Server Error");
     }
   }

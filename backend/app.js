@@ -6,23 +6,27 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const cors = require("cors");
 
-connectDB(); // Connected to MongoDB
+connectDB(); // Connecter à MongoDB
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 const tokens = new csrf();
-const csrfSecret = tokens.secretSync(); // Generate secret for CSRF protection
+const csrfSecret = tokens.secretSync(); // Générer un secret pour la protection CSRF
 
-app.use(helmet()); // Secure HTTP headers
-app.use(morgan("combined")); // Log HTTP requests
-app.use(cors({ origin: "http://localhost:3000", optionsSuccessStatus: 200 })); // Enable CORS
+app.use(helmet()); // Sécuriser les en-têtes HTTP
+app.use(morgan("combined")); // Journaliser les requêtes HTTP
+app.use(cors({ origin: "http://localhost:3000", optionsSuccessStatus: 200 })); // Autoriser CORS
 
-app.use(express.json()); // Parse JSON payloads
-app.use(cookieParser()); // Parse cookies
+app.use(express.json()); // Analyser les payloads JSON
+app.use(cookieParser()); // Analyser les cookies
 
-// Middleware for CSRF protection
+// Middleware pour la protection CSRF
 app.use((req, res, next) => {
+  if (req.path === "/api/auth") {
+    return next(); // Passer la vérification CSRF pour cette route
+  }
+
   if (
     req.method === "GET" ||
     req.method === "HEAD" ||
@@ -30,6 +34,7 @@ app.use((req, res, next) => {
   ) {
     return next();
   }
+
   const token = req.headers["x-csrf-token"] || req.cookies._csrf;
   if (!token || !tokens.verify(csrfSecret, token)) {
     return res.status(403).send("Invalid CSRF token");
@@ -37,11 +42,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// Route to get CSRF token
+// Route pour obtenir le jeton CSRF
 app.get("/csrf-token", (req, res) => {
   const token = tokens.create(csrfSecret);
-  res.cookie("_csrf", token); // Set CSRF token in cookie
-  res.json({ csrfToken: token }); // Send CSRF token in response
+  res.cookie("_csrf", token); // Définir le jeton CSRF dans le cookie
+  res.json({ csrfToken: token }); // Envoyer le jeton CSRF dans la réponse
 });
 
 // Routes API
@@ -51,7 +56,7 @@ app.use("/api/company", require("./routes/company"));
 app.use("/api/admin", require("./routes/user"));
 app.use("/api/auth", require("./routes/auth"));
 
-// Middleware for error handling
+// Middleware pour la gestion des erreurs
 app.use((err, req, res, next) => {
   console.error("Server Error:", err.stack);
   res.status(500).send("Something broke!");
