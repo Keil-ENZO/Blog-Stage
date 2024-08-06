@@ -1,7 +1,11 @@
 <template>
   <div>
-    <AppHeader />
+    <ClientOnly>
+      <AppHeader />
+    </ClientOnly>
     <slot />
-    <AppFooter />
+    <ClientOnly>
+      <AppFooter />
+    </ClientOnly>
   </div>
 </template>

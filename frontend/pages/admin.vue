@@ -24,23 +24,22 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router"; // Utilisez vue-router pour la navigation
+import { useRouter } from "vue-router";
 import client from "../api.js";
 
 const username = ref("");
 const password = ref("");
-const errorMessage = ref(""); // Pour afficher les messages d'erreur
+const errorMessage = ref("");
 const router = useRouter();
 
 const login = async () => {
-  errorMessage.value = ""; // Réinitialiser le message d'erreur
+  errorMessage.value = "";
   try {
-    // Passez username et password comme arguments
     const response = await client.login(username.value, password.value);
-    localStorage.setItem("token", response.data.token); // Stocker le token dans localStorage
-    router.push("/"); // Redirection vers la page d'accueil après la connexion réussie
+    localStorage.setItem("token", response.data.token);
+    router.push("/").reload();
   } catch (error) {
-    errorMessage.value = "Invalid username or password"; // Message d'erreur à afficher
+    errorMessage.value = "Invalid username or password";
     console.error("Login error:", error);
   }
 };
