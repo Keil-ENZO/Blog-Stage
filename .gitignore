@@ -204,7 +204,5 @@ node_modules
 .history
 .ionide
 
-# CV.pdf file
-./frontend/public/cv_keil_enzo.pdf
 
 # End of https://www.toptal.com/developers/gitignore/api/nuxtjs,node,visualstudiocode,macos
