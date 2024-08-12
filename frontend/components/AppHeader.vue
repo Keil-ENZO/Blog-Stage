@@ -14,13 +14,7 @@
               <X v-else class="block h-6 w-6" aria-hidden="true" />
             </DisclosureButton>
           </div>
-          <div class="flex flex-shrink-0 items-center">
-            <img
-              class="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-              alt="Your Company"
-            />
-          </div>
+
           <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
             <li
               v-for="item in updatedNavigation"
