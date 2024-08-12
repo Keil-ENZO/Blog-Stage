@@ -1,4 +1,20 @@
-<script setup lang="ts"></script>
+<script setup>
+import { saveAs } from "file-saver";
+import { Download } from "lucide-vue-next";
+
+async function downloadCV() {
+  try {
+    const response = await fetch("/cv_keil_enzo.pdf"); // Assurez-vous que le chemin est correct
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const blob = await response.blob();
+    saveAs(blob, "cv_keil_enzo.pdf");
+  } catch (error) {
+    console.error("Erreur lors du téléchargement du fichier", error);
+  }
+}
+</script>
 
 <template>
   <div class="flex flex-col justify-between items-center">
@@ -51,25 +67,23 @@
 
               <DialogContent class="sm:max-w-md">
                 <DialogHeader>
-                  <DialogTitle>Share link</DialogTitle>
-                  <DialogDescription>
-                    Anyone who has this link will be able to view this.
+                  <DialogTitle>Téléchargez mon CV</DialogTitle>
+                  <DialogDescription class="mb-4">
+                    Intéressé(e) par mon parcours ? Téléchargez mon CV pour en
+                    savoir plus sur mon expérience et mes compétences.
                   </DialogDescription>
-                </DialogHeader>
-                <div class="flex items-center space-x-2">
-                  <div class="grid flex-1 gap-2">
-                    <Label for="link" class="sr-only"> Link </Label>
-                    <Input
-                      id="link"
-                      default-value="https://shadcn-vue.com/docs/installation"
-                      read-only
+
+                  <div>
+                    <img
+                      src="/assets/img/cv.png"
+                      alt="photo de mon profil"
+                      class="h-full w-full"
                     />
                   </div>
-                  <Button type="submit" size="sm" class="px-3">
-                    <span class="sr-only">Copy</span>
-                    <Copy class="w-4 h-4" />
+                  <Button variant="outline" size="icon" @click="downloadCV">
+                    <Download class="w-4 h-4" />
                   </Button>
-                </div>
+                </DialogHeader>
               </DialogContent>
             </Dialog>
           </div>
