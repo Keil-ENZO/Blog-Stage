@@ -4,7 +4,7 @@ import { Download } from "lucide-vue-next";
 
 async function downloadCV() {
   try {
-    const response = await fetch("/cv_keil_enzo.pdf"); // Assurez-vous que le chemin est correct
+    const response = await fetch("/cv_keil_enzo.pdf");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -49,7 +49,9 @@ async function downloadCV() {
         />
       </svg>
     </div>
-    <section class="flex justify-evenly items-center w-full px-16 h-screen">
+    <section
+      class="flex justify-evenly items-center w-full px-8 md:px-16 h-screen"
+    >
       <div
         class="max-w-screen-md flex flex-col md:flex-row items-center justify-between w-full md:-translate-y-1/2"
       >
@@ -97,24 +99,65 @@ async function downloadCV() {
       </div>
     </section>
 
-    <section class="flex justify-evenly items-center w-full p-16">
+    <section class="flex justify-evenly items-center w-full px-8 md:px-16">
       <div class="max-w-screen-md">
         <h3 class="text-3xl mb-12">Qui suis-je ?</h3>
 
         <p>
           Bonjour tout le monde, je m’appelle KEIL Enzo, étudiant en deuxième
-          année de Bachelor en informatique à l’école Sophia Ynov Campus. Je
-          suis quelqu’un de très déterminer dans ce que je faire avec une envie
-          de toujours en apprendre plus. Je suis passionné par le développement
-          web depuis maintenant trois ans et j’envisage d’en faire mon métier
-          dans les prochaines années. Mon intérêt pour le métier de développeur
-          web a commencé lors d’une discussion avec un membre de ma famille,
+          Année de Bachelor en informatique à l’école Sophia Ynov Campus. Je
+          suis quelqu’un de très déterminé dans ce que je fais avec une envie De
+          toujours en apprendre plus. Je suis passionné par le développement web
+          depuis maintenant trois ans et j’envisage d’en faire mon métier dans
+          les prochaines années. Mon intérêt pour le métier de développeur web a
+          commencé lors d’une discussion avec un membre de ma famille,
           développeur web frontend depuis huit ans. J’ai commencé à m’intéresser
           sérieusement au développement web au lycée, en Terminale STI2D à
           Grasse, une ville sur la Côte d’Azur. Là, j’ai appris les bases de
-          l’HTML et du CSS à travers différents projets. Chez moi, après le
+          L’HTML et du CSS à travers différents projets. Chez moi, après le
           lycée, je pratiquais sur un vieux ordinateur, un MacBook Air de 2010.
         </p>
+
+        <div class="w-full flex justify-center mt-16">
+          <img
+            src="/assets/img/macbook.jpeg"
+            alt="Image du MacBook Air de 2010"
+            class="max-w-[400px] w-full"
+          />
+        </div>
+
+        <p class="py-16">
+          J’ai ensuite intégré mon école actuelle,
+          <a
+            href="https://www.ynov.com/campus/sophia"
+            class="link"
+            target="_blank"
+            >Sophia Ynov Campus</a
+          >
+          , avec un nouvel ordinateur, toujours dans l’objectif de découvrir de
+          nouvelles choses en informatique. Cela fait maintenant deux ans que je
+          suis dans cette école, où j’ai pu apprendre diverses compétences en
+          informatique, et tout particulièrement en développement web. Je vais
+          maintenant entrer dans ma troisième année avec le choix d’une
+          spécialité qui sera, dans mon cas, le 'Développement'. De plus, il va
+          y avoir un grand changement, car nous pourrons aussi devenir
+          alternants dans une entreprise. Je vous ai parlé de moi en détail,
+          maintenant je vous laisse découvrir mon blog. J’espère que cela vous
+          plaira.
+        </p>
+
+        <p class="mb-16">À bientôt ! 👋</p>
+
+        <Alert class="border-border border p-8 rounded-md flex flex-col">
+          <AlertTitle
+            class="mb-3 font-medium text-lg leading-none tracking-tight"
+            >💡 Anecdote</AlertTitle
+          >
+          <AlertDescription class="text-sm font-light">
+            Le MacBook devait toujours être branché sinon il s’éteignait, pas
+            très pratique pour un ordinateur portable !
+          </AlertDescription>
+        </Alert>
       </div>
     </section>
   </div>
