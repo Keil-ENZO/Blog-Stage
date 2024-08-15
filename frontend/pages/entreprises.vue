@@ -17,16 +17,14 @@
           v-for="company in companies"
           :key="company._id"
         >
-          <a :href="`/entrepriseById/${company._id}`" class=" cursor-pointer">
+          <a :href="`/entreprise/${company._id}`" class=" cursor-pointer">
             <div class="flex items-center gap-x-4 text-xs">
               <time datetime="2020-03-16" class="text-ring">{{
                 company.dateDuring
               }}</time>
-              <p
-                class="relative z-10 rounded-full bg-accent px-3 py-1.5 font-medium text-secondary-forground"
-              >
-                {{ company.city }} - {{ company.country }}
-              </p>
+                <Badge variant="secondary"  class="relative z-10 rounded-full bg-accent px-3 py-1.5 font-medium text-secondary-forground">
+                   {{ company.country }} - {{ company.city }} 
+              </Badge>
             </div>
             <div class="group relative">
               <h3 class="mt-3 text-lg font-semibold leading-6 text-primary">
@@ -70,8 +68,6 @@ client
   .getCompanies()
   .then((response) => {
     companies.value = response.data;
-
-    console.log(response.data);
   }) 
   .catch((error) => {
     console.log(error);

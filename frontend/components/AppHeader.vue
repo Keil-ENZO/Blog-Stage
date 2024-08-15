@@ -114,8 +114,8 @@ const currentPath = computed(() => route.path);
 
 const navigation = ref([
   { name: "Home", link: "/", current: false },
-  { name: "Entreprises", link: "/entreprise", current: false },
-  { name: "Articles", link: "/article", current: false },
+  { name: "Entreprises", link: "/entreprises", current: false },
+  { name: "Articles", link: "/articles", current: false },
   { name: "Contact", link: "/contact", current: false },
 ]);
 
