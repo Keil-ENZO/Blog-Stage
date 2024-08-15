@@ -6,6 +6,10 @@ const CompanySchema = new moogoose.Schema({
     required: true,
     unique: true,
   },
+  director: {
+    type: String,
+    required: true,
+  },
   description: {
     type: String,
     required: true,
@@ -15,6 +19,10 @@ const CompanySchema = new moogoose.Schema({
     required: true,
   },
   country: {
+    type: String,
+    required: true,
+  },
+  dateDuring: {
     type: String,
     required: true,
   },

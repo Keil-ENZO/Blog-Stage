@@ -33,6 +33,8 @@ router.post(
   [body("description").notEmpty().withMessage("Description is required")],
   [body("city").notEmpty().withMessage("City is required")],
   [body("country").notEmpty().withMessage("Country is required")],
+  [body("director").notEmpty().withMessage("Director is required")],
+  [body("dateDuring").notEmpty().withMessage("DateDuring is required")],
   authenticate,
   async (req, res) => {
     const errors = validationResult(req);
@@ -40,13 +42,15 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, description, city, country } = req.body;
+    const { name, description, city, country, director, dateDuring } = req.body;
     try {
       const newCompany = new Company({
         name,
         description,
         city,
         country,
+        director,
+        dateDuring,
       });
       const company = await newCompany.save();
       res.json(company);

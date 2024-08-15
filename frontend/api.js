@@ -19,4 +19,12 @@ export default {
   logout() {
     return client.post("/auth/logout");
   },
+
+  getCompanies() {
+    return client.get("/company");
+  },
+
+  getCompany(id) {
+    return client.get(`/company/${id}`);
+  },
 };
