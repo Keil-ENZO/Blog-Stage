@@ -1,5 +1,5 @@
 <template>
-  <Disclosure as="nav" class="bg-background" v-slot="{ open }">
+  <Disclosure as="nav" class="bg-background" v-slot="{ open: slotOpen }">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-16 justify-between">
         <div class="flex">
@@ -37,12 +37,55 @@
           </div>
         </div>
         <div class="flex items-center">
-          <div class="flex-shrink-0">
+          <div class="flex items-center">
             <template v-if="isAuthenticated">
-              <Button class="mx-2">
-                <Plus class="w-4 h-4 mr-2" />
-                New Article
-              </Button>
+              <Dialog>
+                <DialogTrigger as-child class="flex justify-start">
+                  <Button class="mx-2">
+                    <Plus class="w-4 h-4 mr-2" />
+                    New Article
+                  </Button>
+                </DialogTrigger>
+
+                <DialogContent class="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>New Article</DialogTitle>
+                    <Tabs
+                      default-value="firstStep"
+                      class="w-full flex flex-col items-center justify-center mt-5"
+                    >
+                      <TabsList>
+                        <TabsTrigger value="firstStep"> 1 Step </TabsTrigger>
+                        <TabsTrigger value="secondStep"> 2 Step </TabsTrigger>
+                      </TabsList>
+                      <TabsContent
+                        value="firstStep"
+                        class="flex flex-col gap-3"
+                      >
+                        <Input type="text" placeholder="Title" />
+                        <Input type="file" />
+                        <TagsInput v-model="modelValue">
+                          <TagsInputItem
+                            v-for="item in modelValue"
+                            :key="item"
+                            :value="item"
+                          >
+                            <TagsInputItemText />
+                            <TagsInputItemDelete />
+                          </TagsInputItem>
+
+                          <TagsInputInput placeholder="Tags..." />
+                        </TagsInput>
+                      </TabsContent>
+                      <TabsContent value="secondStep">
+                        <client-only>
+                          <TiptapEditor />
+                        </client-only>
+                      </TabsContent>
+                    </Tabs>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
               <Button
                 @click="logout"
                 class="mx-2"
@@ -87,6 +130,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import { LogOut, Menu, Plus, X } from "lucide-vue-next";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import TiptapEditor from "../components/TiptapEditor.vue";
 import { getUserRole } from "../utils/auth.js";
 
 const userRole = ref(null);
@@ -125,4 +169,6 @@ const updatedNavigation = computed(() => {
     current: item.link === currentPath.value,
   }));
 });
+
+const modelValue = ref(["Apple", "Banana"]);
 </script>
