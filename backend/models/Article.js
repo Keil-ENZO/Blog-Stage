@@ -6,7 +6,7 @@ const ArticleSchema = new mongoose.Schema({
     required: true,
   },
   content: {
-    type: String,
+    type: Array,
     required: true,
   },
   tags: {
@@ -15,7 +15,7 @@ const ArticleSchema = new mongoose.Schema({
   },
   img: {
     type: String,
-    required: true,
+    required: false,
   },
   likes: {
     type: Number,

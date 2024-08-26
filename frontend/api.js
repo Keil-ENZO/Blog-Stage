@@ -27,4 +27,20 @@ export default {
   getCompany(id) {
     return client.get(`/company/${id}`);
   },
+
+  getTags() {
+    return client.get("/tag");
+  },
+
+  addTag(tag) {
+    return client.post("/tag", tag);
+  },
+
+  addArticle(article) {
+    return client.post("/article", article);
+  },
+
+  getCsrfToken() {
+    return client.get("/csrf-token");
+  },
 };

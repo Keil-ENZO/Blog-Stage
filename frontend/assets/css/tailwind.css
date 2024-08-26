@@ -117,3 +117,12 @@
     transform: rotate(var(--rotate)) scaleX(var(--scaleX));
   }
 }
+
+.tiptap {
+  @apply flex w-full min-w-[400px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+
+  /* CSS attribute to break long words in my input so that they wrap to the next line */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
