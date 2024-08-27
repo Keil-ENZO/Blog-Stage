@@ -54,4 +54,12 @@ export default {
   getCsrfToken() {
     return client.get("/csrf-token");
   },
+
+  uploadImage(formData) {
+    return client.post("/article/upload-image", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
 };

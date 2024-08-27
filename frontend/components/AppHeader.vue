@@ -67,7 +67,7 @@
                           placeholder="Title"
                           v-model="title"
                         />
-                        <Input type="file" />
+                        <!-- Mettre input file for upload img -->
                         <TagsInput v-model="tags">
                           <TagsInputItem
                             v-for="item in tags"
@@ -84,34 +84,23 @@
                       <TabsContent value="secondStep">
                         <client-only class="relative max-w-full">
                           <EditorContent :editor="editor" class="max-w-full" />
+                          <Input
+                            type="file"
+                            ref="fileInput"
+                            @change="handleFileUpload"
+                          />
                           <div
                             class="w-full flex items-center justify-end gap-x-2 mt-5"
                           >
-                            <Button @click="publishArticle"> Publish </Button>
+                            <div>
+                              <Button v-if="!isPublish" @click="publishArticle">
+                                Publish
+                              </Button>
 
-                            <div
-                              role="status"
-                              :class="{ 'opacity-0': !isPublish }"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink"
-                                enable-background="new 0 0 24 24"
-                                id="Layer_1"
-                                version="1.0"
-                                viewBox="0 0 24 24"
-                                xml:space="preserve"
-                                class="w-6 h-6"
-                              >
-                                <polyline
-                                  class="path"
-                                  fill="none"
-                                  points="20,6 9,17 4,12"
-                                  stroke="#E9E8E6"
-                                  stroke-miterlimit="10"
-                                  stroke-width="2"
-                                />
-                              </svg>
+                              <Button v-else disabled>
+                                <Loader2 class="w-4 h-4 mr-2 animate-spin" />
+                                Please wait
+                              </Button>
                             </div>
                           </div>
                         </client-only>
@@ -163,10 +152,10 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/vue-3";
-import { LogOut, Menu, Plus, X } from "lucide-vue-next";
+import { Loader2, LogOut, Menu, Plus, X } from "lucide-vue-next";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import client from "../api.js";
+import client from "../api.js"; // Assurez-vous que `client` est configuré pour faire des appels API
 import { getUserRole } from "../utils/auth.js";
 
 const userRole = ref(null);
@@ -188,7 +177,7 @@ const isPublish = ref(false);
 const tags = ref([]);
 const title = ref("");
 const content = ref("");
-const img = ref("");
+const img = ref(""); // URL de l'image
 const likes = ref(0);
 
 const editor = useEditor({
@@ -227,6 +216,24 @@ client.getTags().then((response) => {
   tags.value = response.data.map((tag) => tag.name);
 });
 
+const handleFileUpload = async (event) => {
+  const fileInput = event.target;
+  const file = fileInput.files[0];
+
+  if (file) {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await client.uploadImage(formData); // Assurez-vous que `client.uploadImage` est bien configuré
+      img.value = response.data.imageUrl; // URL de l'image renvoyée par le serveur
+      console.log("Image URL:", img.value); // Pour vérifier que l'URL est correcte
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  }
+};
+
 const publishArticle = async () => {
   try {
     csrfToken.value = await client.getCsrfToken();
@@ -235,7 +242,7 @@ const publishArticle = async () => {
       title: title.value,
       content: content.value,
       tags: tags.value,
-      img: img.value,
+      img: img.value, // Vérifie que img.value contient l'URL de l'image
       likes: likes.value,
       created: new Date(),
       updated: new Date(),
@@ -245,11 +252,10 @@ const publishArticle = async () => {
       articleData,
       csrfToken.value.data.csrfToken
     );
-
-    window.location.href = `/articles/${response.data.id}`;
-
+    window.location.href = `/article/${response.data._id}`;
     isPublish.value = true;
   } catch (error) {
+    console.error("Error publishing article:", error); // Affiche les détails de l'erreur
     alert("An error occurred while publishing the article");
     isPublish.value = false;
   }

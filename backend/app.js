@@ -1,5 +1,6 @@
 const express = require("express");
 const connectDB = require("./config/database");
+const connectCloudinary = require("./config/cloudinary");
 const csrf = require("csrf");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
@@ -7,6 +8,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 connectDB(); // Connecter à MongoDB
+connectCloudinary(); // Connecter à Cloudinary
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -23,6 +25,11 @@ app.use(cookieParser()); // Analyser les cookies
 
 // Middleware pour la protection CSRF
 app.use((req, res, next) => {
+  // Exclure certaines routes de la vérification CSRF
+  if (req.path.startsWith("/api/article/upload-image")) {
+    return next();
+  }
+
   if (req.path === "/api/auth") {
     return next(); // Passer la vérification CSRF pour cette route
   }

@@ -57,9 +57,8 @@ client.getArticle(articleId).then((response) => {
 function formatedDate(date) {
   const givenDate = new Date(date);
 
-  // Vérifier si la date est valide
   if (!isValid(givenDate)) {
-    return "Date invalide"; // Vous pouvez personnaliser ce message
+    return;
   }
 
   const tenDaysAgo = new Date();

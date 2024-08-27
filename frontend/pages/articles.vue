@@ -18,6 +18,7 @@
           :key="article._id"
         >
           <a :href="`/article/${article._id}`" class="cursor-pointer">
+            <img :src="article.img" alt="Img" />
             <div class="flex items-center gap-x-4 text-xs">
               <time :datetime="article.created" class="text-ring">
                 {{ formatedDate(article.created) }}
@@ -64,6 +65,7 @@ client
   .getArticles()
   .then((response) => {
     articles.value = response.data;
+    console.log(response.data);
   })
   .catch((error) => {
     alert("An error occurred while fetching articles" + error);
