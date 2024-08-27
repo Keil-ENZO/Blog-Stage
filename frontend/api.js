@@ -5,10 +5,6 @@ const client = axios.create({
 });
 
 export default {
-  getArticles() {
-    return client.get("/article");
-  },
-
   login(username, password) {
     return client.post("/auth", {
       username,
@@ -34,6 +30,14 @@ export default {
 
   addTag(tag) {
     return client.post("/tag", tag);
+  },
+
+  getArticles() {
+    return client.get("/article");
+  },
+
+  getArticle(id) {
+    return client.get(`/article/${id}`);
   },
 
   addArticle(article, csrfToken) {
