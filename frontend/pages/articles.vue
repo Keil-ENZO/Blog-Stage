@@ -64,10 +64,9 @@ client
   .getArticles()
   .then((response) => {
     articles.value = response.data;
-    console.log(articles.value);
   })
   .catch((error) => {
-    console.log(error);
+    alert("An error occurred while fetching articles" + error);
   });
 
 function formatedDate(date) {
