@@ -36,8 +36,15 @@ export default {
     return client.post("/tag", tag);
   },
 
-  addArticle(article) {
-    return client.post("/article", article);
+  addArticle(article, csrfToken) {
+    const token = "VALID_TOKEN";
+
+    return client.post("/article", article, {
+      headers: {
+        Authorization: token,
+        "X-Csrf-Token": csrfToken,
+      },
+    });
   },
 
   getCsrfToken() {

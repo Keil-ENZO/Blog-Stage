@@ -43,7 +43,7 @@ app.use((req, res, next) => {
 });
 
 // Route pour obtenir le jeton CSRF
-app.get("/csrf-token", (req, res) => {
+app.get("/api/csrf-token", (req, res) => {
   const token = tokens.create(csrfSecret);
   res.cookie("_csrf", token); // Définir le jeton CSRF dans le cookie
   res.json({ csrfToken: token }); // Envoyer le jeton CSRF dans la réponse

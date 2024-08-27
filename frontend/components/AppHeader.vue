@@ -62,11 +62,15 @@
                         value="firstStep"
                         class="flex flex-col gap-3"
                       >
-                        <Input type="text" placeholder="Title" />
+                        <Input
+                          type="text"
+                          placeholder="Title"
+                          v-model="title"
+                        />
                         <Input type="file" />
-                        <TagsInput v-model="modelValue">
+                        <TagsInput v-model="tags">
                           <TagsInputItem
-                            v-for="item in modelValue"
+                            v-for="item in tags"
                             :key="item"
                             :value="item"
                           >
@@ -78,8 +82,38 @@
                         </TagsInput>
                       </TabsContent>
                       <TabsContent value="secondStep">
-                        <client-only>
-                          <TiptapEditor />
+                        <client-only class="relative max-w-full">
+                          <EditorContent :editor="editor" class="max-w-full" />
+                          <div
+                            class="w-full flex items-center justify-end gap-x-2 mt-5"
+                          >
+                            <Button @click="publishArticle"> Publish </Button>
+
+                            <div
+                              role="status"
+                              :class="{ 'opacity-0': !isPublish }"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                enable-background="new 0 0 24 24"
+                                id="Layer_1"
+                                version="1.0"
+                                viewBox="0 0 24 24"
+                                xml:space="preserve"
+                                class="w-6 h-6"
+                              >
+                                <polyline
+                                  class="path"
+                                  fill="none"
+                                  points="20,6 9,17 4,12"
+                                  stroke="#E9E8E6"
+                                  stroke-miterlimit="10"
+                                  stroke-width="2"
+                                />
+                              </svg>
+                            </div>
+                          </div>
                         </client-only>
                       </TabsContent>
                     </Tabs>
@@ -127,14 +161,43 @@
 
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
+import StarterKit from "@tiptap/starter-kit";
+import { EditorContent, useEditor } from "@tiptap/vue-3";
 import { LogOut, Menu, Plus, X } from "lucide-vue-next";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import TiptapEditor from "../components/TiptapEditor.vue";
+import client from "../api.js";
 import { getUserRole } from "../utils/auth.js";
 
 const userRole = ref(null);
 const isAuthenticated = ref(false);
+
+const route = useRoute();
+const currentPath = computed(() => route.path);
+
+const navigation = ref([
+  { name: "Home", link: "/", current: false },
+  { name: "Entreprises", link: "/entreprises", current: false },
+  { name: "Articles", link: "/articles", current: false },
+  { name: "Contact", link: "/contact", current: false },
+]);
+
+const csrfToken = ref("");
+const isPublish = ref(false);
+
+const tags = ref([]);
+const title = ref("");
+const content = ref("");
+const img = ref("");
+const likes = ref(0);
+
+const editor = useEditor({
+  extensions: [StarterKit],
+  content: content.value,
+  onUpdate: ({ editor }) => {
+    content.value = editor.getHTML();
+  },
+});
 
 onMounted(() => {
   const token = localStorage.getItem("token");
@@ -153,16 +216,6 @@ const logout = async () => {
   }
 };
 
-const route = useRoute();
-const currentPath = computed(() => route.path);
-
-const navigation = ref([
-  { name: "Home", link: "/", current: false },
-  { name: "Entreprises", link: "/entreprises", current: false },
-  { name: "Articles", link: "/articles", current: false },
-  { name: "Contact", link: "/contact", current: false },
-]);
-
 const updatedNavigation = computed(() => {
   return navigation.value.map((item) => ({
     ...item,
@@ -170,5 +223,37 @@ const updatedNavigation = computed(() => {
   }));
 });
 
-const modelValue = ref(["Apple", "Banana"]);
+client.getTags().then((response) => {
+  tags.value = response.data.map((tag) => tag.name);
+});
+
+const publishArticle = async () => {
+  try {
+    csrfToken.value = await client.getCsrfToken();
+
+    const articleData = {
+      title: title.value,
+      content: content.value,
+      tags: tags.value,
+      img: img.value,
+      likes: likes.value,
+      created: new Date(),
+      updated: new Date(),
+    };
+
+    const response = await client.addArticle(
+      articleData,
+      csrfToken.value.data.csrfToken
+    );
+
+    window.location.href = `/articles/${response.data.id}`;
+
+    isPublish.value = true;
+  } catch (error) {
+    alert("An error occurred while publishing the article");
+    isPublish.value = false;
+  }
+};
+
+isPublish.value = false;
 </script>

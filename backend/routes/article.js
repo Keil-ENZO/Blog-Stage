@@ -41,7 +41,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { title, content, tags, img } = req.body;
+    const { title, content, tags, img, likes } = req.body;
     try {
       const newArticle = new Article({
         title,
