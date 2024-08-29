@@ -3,14 +3,14 @@
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="mx-auto max-w-2xl lg:mx-0">
         <h2 class="text-3xl font-bold tracking-tight text-priamry sm:text-4xl">
-          Contexte et présentation de l’entreprise
+          Articles
         </h2>
         <p class="mt-2 text-lg leading-8 text-ring">
-          Venez découvrir les entreprises dans lesquelles j'ai travaillé
+          Venez découvrir les derniers articles publiés
         </p>
       </div>
       <div
-        class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-border pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3"
+        class="mx-auto mt-10 grid max-w-lg grid-cols-1 gap-x-8 gap-y-16 border-t border-border pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3"
       >
         <article
           class="flex max-w-xl flex-col items-start justify-between p-5 rounded-lg"
@@ -18,12 +18,14 @@
           :key="article._id"
         >
           <a :href="`/article/${article._id}`" class="cursor-pointer">
-            <img :src="article.img" alt="Img" />
-            <div class="flex items-center gap-x-4 text-xs">
-              <time :datetime="article.created" class="text-ring">
-                {{ formatedDate(article.created) }}
-              </time>
+            <div class="w-full flex justify-center items-center">
+              <img
+                :src="article.img"
+                :alt="article.img"
+                class="w-[345px] h-[190px] rounded-xl bg-gray-100 object-cover shadow-sm"
+              />
             </div>
+
             <div class="group relative">
               <h3 class="mt-3 text-lg font-semibold leading-6 text-primary">
                 <p>
@@ -45,6 +47,11 @@
               >
                 {{ tag }}
               </Badge>
+            </div>
+            <div class="w-full flex items-center justify-end text-xs mt-3">
+              <time :datetime="article.created" class="text-ring">
+                {{ formatedDate(article.created) }}
+              </time>
             </div>
           </a>
         </article>
