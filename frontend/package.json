@@ -13,6 +13,8 @@
     "@headlessui/vue": "^1.7.22",
     "@nuxt/http": "^0.6.4",
     "@nuxtjs/axios": "^5.13.6",
+    "@tiptap/extension-heading": "^2.6.6",
+    "@tiptap/extension-image": "^2.6.6",
     "@tiptap/starter-kit": "^2.6.4",
     "@tiptap/vue-3": "^2.6.4",
     "@vueuse/core": "^10.11.1",

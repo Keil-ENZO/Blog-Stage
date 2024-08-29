@@ -9,49 +9,55 @@
           Venez découvrir les derniers articles publiés
         </p>
       </div>
+
       <div
-        class="mx-auto mt-10 grid max-w-lg grid-cols-1 gap-x-8 gap-y-16 border-t border-border pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3"
+        class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-16 gap-y-16 border-t border-border pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3"
       >
-        <article
-          class="flex max-w-xl flex-col items-start justify-between p-5 rounded-lg"
-          v-for="article in articles"
-          :key="article._id"
-        >
-          <a :href="`/article/${article._id}`" class="cursor-pointer">
-            <div class="w-full flex justify-center items-center">
+        <article v-for="article in articles" :key="article._id">
+          <a
+            class="flex flex-col items-start justify-between cursor-pointer"
+            :href="`/article/${article._id}`"
+          >
+            <div class="relative w-full">
               <img
                 :src="article.img"
                 :alt="article.img"
-                class="w-[345px] h-[190px] rounded-xl bg-gray-100 object-cover shadow-sm"
+                class="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+              />
+              <div
+                class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"
               />
             </div>
-
-            <div class="group relative">
-              <h3 class="mt-3 text-lg font-semibold leading-6 text-primary">
-                <p>
-                  <span class="absolute inset-0"></span>
-                  {{ article.title }}
-                </p>
-              </h3>
-              <p
-                class="mt-5 line-clamp-3 text-sm leading-6 text-ring"
-                v-html="article.content"
-              ></p>
-            </div>
-
-            <div class="flex gap-2">
-              <Badge
-                variant="secondary"
-                class="relative z-10 rounded-full bg-accent px-3 py-1.5 font-medium text-secondary-forground mt-5"
-                v-for="tag in article.tags"
+            <div class="w-full">
+              <div
+                class="w-full flex flex-col md:flex-row justify-between md:items-center"
               >
-                {{ tag }}
-              </Badge>
-            </div>
-            <div class="w-full flex items-center justify-end text-xs mt-3">
-              <time :datetime="article.created" class="text-ring">
-                {{ formatedDate(article.created) }}
-              </time>
+                <div class="mt-8 flex items-center gap-x-4 text-xs">
+                  <time :datetime="article.created" class="text-ring">
+                    {{ formatedDate(article.created) }}
+                  </time>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                  <Badge
+                    variant="secondary"
+                    class="relative z-10 rounded-full bg-accent px-3 py-1.5 font-medium text-secondary-forground mt-5"
+                    v-for="tag in article.tags"
+                  >
+                    {{ tag }}
+                  </Badge>
+                </div>
+              </div>
+              <div class="group relative">
+                <h3
+                  class="mt-5 text-lg font-semibold line-clamp-3 leading-6 text-primary"
+                >
+                  {{ article.title }}
+                </h3>
+                <p
+                  class="mt-3 line-clamp-3 text-sm leading-6 text-ring"
+                  v-html="article.content"
+                ></p>
+              </div>
             </div>
           </a>
         </article>

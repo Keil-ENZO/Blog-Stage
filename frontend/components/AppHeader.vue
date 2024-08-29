@@ -67,7 +67,11 @@
                           placeholder="Title"
                           v-model="title"
                         />
-                        <!-- Mettre input file for upload img -->
+                        <Input
+                          type="file"
+                          ref="fileInput"
+                          @change="handleFileUpload"
+                        />
                         <TagsInput v-model="tags">
                           <TagsInputItem
                             v-for="item in tags"
@@ -84,11 +88,44 @@
                       <TabsContent value="secondStep">
                         <client-only class="relative max-w-full">
                           <EditorContent :editor="editor" class="max-w-full" />
-                          <Input
-                            type="file"
-                            ref="fileInput"
-                            @change="handleFileUpload"
-                          />
+                          <Button
+                            @click="
+                              editor
+                                .chain()
+                                .focus()
+                                .toggleHeading({ level: 2 })
+                                .run()
+                            "
+                            :class="{
+                              'is-active': editor.isActive('heading', {
+                                level: 2,
+                              }),
+                            }"
+                            class="mt-5"
+                          >
+                            H2
+                          </Button>
+                          <Button
+                            @click="
+                              editor
+                                .chain()
+                                .focus()
+                                .toggleHeading({ level: 3 })
+                                .run()
+                            "
+                            :class="{
+                              'is-active': editor.isActive('heading', {
+                                level: 3,
+                              }),
+                            }"
+                            class="mt-5"
+                          >
+                            H3
+                          </Button>
+                          <button @click="addImageToEditor">
+                            Add Image to Editor
+                          </button>
+
                           <div
                             class="w-full flex items-center justify-end gap-x-2 mt-5"
                           >
@@ -150,12 +187,14 @@
 
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
+import Heading from "@tiptap/extension-heading";
+import Image from "@tiptap/extension-image";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/vue-3";
 import { Loader2, LogOut, Menu, Plus, X } from "lucide-vue-next";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import client from "../api.js"; // Assurez-vous que `client` est configuré pour faire des appels API
+import client from "../api.js";
 import { getUserRole } from "../utils/auth.js";
 
 const userRole = ref(null);
@@ -177,16 +216,8 @@ const isPublish = ref(false);
 const tags = ref([]);
 const title = ref("");
 const content = ref("");
-const img = ref(""); // URL de l'image
+const img = ref("");
 const likes = ref(0);
-
-const editor = useEditor({
-  extensions: [StarterKit],
-  content: content.value,
-  onUpdate: ({ editor }) => {
-    content.value = editor.getHTML();
-  },
-});
 
 onMounted(() => {
   const token = localStorage.getItem("token");
@@ -196,12 +227,76 @@ onMounted(() => {
   }
 });
 
-const logout = async () => {
-  if (typeof window !== "undefined") {
-    localStorage.removeItem("token");
-    isAuthenticated.value = false;
-    window.location.href = "/";
-    console.log("User logged out");
+let editor = useEditor({
+  extensions: [
+    StarterKit,
+    Heading.configure({
+      levels: [2, 3],
+    }),
+    Image,
+  ],
+  content: content.value,
+  onUpdate: ({ editor }) => {
+    content.value = editor.getHTML();
+  },
+});
+
+const handleFileUpload = async (event) => {
+  const fileInput = event.target;
+
+  if (fileInput && fileInput.files && fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await client.uploadImage(formData);
+      const imageUrl = response.data.imageUrl;
+      console.log("Image uploaded successfully, URL:", imageUrl);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  } else {
+    console.error("No file selected or input is invalid.");
+  }
+};
+
+const addImageToEditor = () => {
+  if (editor.value) {
+    const url = window.prompt("Enter the image URL to insert:");
+
+    if (url) {
+      editor.value.chain().focus().setImage({ src: url }).run();
+    }
+  } else {
+    console.error("Editor is not initialized or available.");
+  }
+};
+const publishArticle = async () => {
+  try {
+    csrfToken.value = await client.getCsrfToken();
+
+    const articleData = {
+      title: title.value,
+      content: content.value,
+      tags: tags.value,
+      img: img.value,
+      likes: likes.value,
+      created: new Date(),
+      updated: new Date(),
+    };
+
+    const response = await client.addArticle(
+      articleData,
+      csrfToken.value.data.csrfToken
+    );
+    window.location.href = `/article/${response.data._id}`;
+    isPublish.value = true;
+  } catch (error) {
+    console.error("Error publishing article:", error);
+    alert("An error occurred while publishing the article");
+    isPublish.value = false;
   }
 };
 
@@ -216,50 +311,19 @@ client.getTags().then((response) => {
   tags.value = response.data.map((tag) => tag.name);
 });
 
-const handleFileUpload = async (event) => {
-  const fileInput = event.target;
-  const file = fileInput.files[0];
-
-  if (file) {
-    const formData = new FormData();
-    formData.append("image", file);
-
-    try {
-      const response = await client.uploadImage(formData); // Assurez-vous que `client.uploadImage` est bien configuré
-      img.value = response.data.imageUrl; // URL de l'image renvoyée par le serveur
-      console.log("Image URL:", img.value); // Pour vérifier que l'URL est correcte
-    } catch (error) {
-      console.error("Error uploading image:", error);
-    }
+const logout = async () => {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("token");
+    isAuthenticated.value = false;
+    window.location.href = "/";
+    console.log("User logged out");
   }
 };
 
-const publishArticle = async () => {
-  try {
-    csrfToken.value = await client.getCsrfToken();
-
-    const articleData = {
-      title: title.value,
-      content: content.value,
-      tags: tags.value,
-      img: img.value, // Vérifie que img.value contient l'URL de l'image
-      likes: likes.value,
-      created: new Date(),
-      updated: new Date(),
-    };
-
-    const response = await client.addArticle(
-      articleData,
-      csrfToken.value.data.csrfToken
-    );
-    window.location.href = `/article/${response.data._id}`;
-    isPublish.value = true;
-  } catch (error) {
-    console.error("Error publishing article:", error); // Affiche les détails de l'erreur
-    alert("An error occurred while publishing the article");
-    isPublish.value = false;
+onBeforeUnmount(() => {
+  if (editor.value) {
+    editor.value.destroy();
   }
-};
-
+});
 isPublish.value = false;
 </script>

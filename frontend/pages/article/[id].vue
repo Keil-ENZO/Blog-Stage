@@ -6,9 +6,9 @@
       <div
         class="mx-auto max-w-3xl lg:mx-0 flex flex-col-reverse sm:flex-row justify-between w-full"
       >
-        <div>
+        <div class="max-w-[350px]">
           <h2
-            class="text-3xl font-bold tracking-tight text-priamry sm:text-4xl"
+            class="text-3xl font-bold tracking-tight text-priamry sm:text-4xl break-words"
           >
             {{ article.title }}
           </h2>
@@ -33,7 +33,8 @@
       <div
         class="mx-auto max-w-3xl lg:mx-0 flex flex-col-reverse sm:flex-row justify-between w-full mt-12"
       >
-        <p v-html="article.content"></p>
+        <div v-html="article.content"></div>
+        <!-- <p>{{ article.content }}</p> -->
       </div>
     </div>
   </div>

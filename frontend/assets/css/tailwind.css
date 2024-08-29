@@ -119,10 +119,77 @@
 }
 
 .tiptap {
-  @apply flex w-full min-w-[400px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  @apply w-full min-w-[400px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
 
   /* CSS attribute to break long words in my input so that they wrap to the next line */
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: break-word;
+}
+
+/* Basic editor styles */
+.tiptap:first-child {
+  margin-top: 0;
+}
+
+/* Heading styles */
+.tiptap h1,
+.tiptap h2,
+.tiptap h3,
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  line-height: 1.1;
+  margin-top: 2.5rem;
+  text-wrap: pretty;
+}
+
+.tiptap h1,
+.tiptap h2 {
+  margin-top: 3.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.tiptap h1 {
+  font-size: 1.4rem;
+}
+
+.tiptap h2 {
+  font-size: 1.2rem;
+}
+
+.tiptap h3 {
+  font-size: 1.1rem;
+}
+
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  font-size: 1rem;
+}
+
+.tiptap img {
+  display: block;
+  height: auto;
+  margin: 1.5rem 0;
+  max-width: 100%;
+}
+
+.tiptap img.ProseMirror-selectednode {
+  outline: 3px solid var(--primary);
+}
+
+h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
 }

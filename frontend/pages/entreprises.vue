@@ -17,7 +17,7 @@
           v-for="company in companies"
           :key="company._id"
         >
-          <a :href="`/entreprise/${company._id}`" class=" cursor-pointer">
+          <a :href="`/entreprise/${company._id}`" class="cursor-pointer">
             <div class="flex items-center gap-x-4 text-xs">
               <time datetime="2020-03-16" class="text-ring">{{
                 company.dateDuring
@@ -28,10 +28,7 @@
             </div>
             <div class="group relative">
               <h3 class="mt-3 text-lg font-semibold leading-6 text-primary">
-                <p>
-                  <span class="absolute inset-0"></span>
-                  {{ company.name }}
-                </p>
+                  {{ company.name }}        
               </h3>
               <p class="mt-5 line-clamp-3 text-sm leading-6 text-ring">
                 {{ company.description }}

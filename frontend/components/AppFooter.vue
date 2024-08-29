@@ -24,8 +24,7 @@
             Abonnez-vous à la newsletter
           </h3>
           <p class="mt-2 text-sm leading-6 text-ring max-w-[400px]">
-            Les dernières articles envoyés chaque semaine dans votre boîte de
-            réception.
+            Les dernières articles envoyés dans votre boîte de réception.
           </p>
           <form class="mt-6 sm:flex sm:max-w-md">
             <div class="flex w-full max-w-sm items-center gap-1.5">
