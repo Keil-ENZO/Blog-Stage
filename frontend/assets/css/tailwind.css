@@ -179,6 +179,16 @@
   outline: 3px solid var(--primary);
 }
 
+/* Placeholder (at the top) */
+p.is-editor-empty:first-child::before {
+  color: var(--ring);
+  opacity: 0.5;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
 h1 {
   font-size: 2.25rem;
   font-weight: 700;

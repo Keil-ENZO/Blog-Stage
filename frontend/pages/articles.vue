@@ -54,8 +54,8 @@
                   {{ article.title }}
                 </h3>
                 <p
-                  class="mt-3 line-clamp-3 text-sm leading-6 text-ring"
-                  v-html="article.content"
+                  class="mt-3 line-clamp-3 text-sm leading-6 text-ring lowercase"
+                  v-html="formatContent(article.content)"
                 ></p>
               </div>
             </div>
@@ -96,5 +96,25 @@ function formatedDate(date) {
       locale: fr,
     });
   }
+}
+
+function formatContent(content) {
+  let parser = new DOMParser();
+  let doc = parser.parseFromString(content, "text/html");
+
+  let images = doc.querySelectorAll("img");
+  images.forEach((img) => img.remove());
+
+  let h2 = doc.querySelectorAll("h2");
+  h2.forEach((h2) => {
+    h2.outerHTML = `<p>${h2.innerHTML}</p>`;
+  });
+
+  let h3 = doc.querySelectorAll("h3");
+  h3.forEach((h3) => {
+    h3.outerHTML = `<p>${h3.innerHTML}</p>`;
+  });
+
+  return doc.body.innerHTML.toLowerCase();
 }
 </script>

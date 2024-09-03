@@ -88,44 +88,93 @@
                       <TabsContent value="secondStep">
                         <client-only class="relative max-w-full">
                           <EditorContent :editor="editor" class="max-w-full" />
-                          <Button
-                            @click="
-                              editor
-                                .chain()
-                                .focus()
-                                .toggleHeading({ level: 2 })
-                                .run()
-                            "
-                            :class="{
-                              'is-active': editor.isActive('heading', {
-                                level: 2,
-                              }),
-                            }"
-                            class="mt-5"
-                          >
-                            H2
-                          </Button>
-                          <Button
-                            @click="
-                              editor
-                                .chain()
-                                .focus()
-                                .toggleHeading({ level: 3 })
-                                .run()
-                            "
-                            :class="{
-                              'is-active': editor.isActive('heading', {
-                                level: 3,
-                              }),
-                            }"
-                            class="mt-5"
-                          >
-                            H3
-                          </Button>
-                          <button @click="addImageToEditor">
-                            Add Image to Editor
-                          </button>
 
+                          <div>
+                            <p class="text-sm text-muted-foreground">
+                              Press
+                              <kbd
+                                class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100"
+                              >
+                                <span class="text-xs">⌘</span>J
+                              </kbd>
+                            </p>
+                            <CommandDialog v-model:open="open">
+                              <CommandInput
+                                placeholder="Type a command or search..."
+                              />
+                              <CommandList>
+                                <CommandEmpty>No results found.</CommandEmpty>
+                                <CommandGroup heading="Tools">
+                                  <CommandItem
+                                    value="H3"
+                                    @click="
+                                      editor
+                                        .chain()
+                                        .focus()
+                                        .toggleHeading({ level: 3 })
+                                        .run()
+                                    "
+                                    :class="{
+                                      'is-active': editor.isActive('heading', {
+                                        level: 3,
+                                      }),
+                                    }"
+                                  >
+                                    H3
+                                  </CommandItem>
+                                  <CommandItem
+                                    value="H2"
+                                    @click="
+                                      editor
+                                        .chain()
+                                        .focus()
+                                        .toggleHeading({ level: 2 })
+                                        .run()
+                                    "
+                                    :class="{
+                                      'is-active': editor.isActive('heading', {
+                                        level: 2,
+                                      }),
+                                    }"
+                                  >
+                                    H2
+                                  </CommandItem>
+                                  <CommandItem
+                                    value="Bold"
+                                    @click="
+                                      editor.chain().focus().toggleBold().run()
+                                    "
+                                    :class="{
+                                      'is-active': editor.isActive('bold'),
+                                    }"
+                                  >
+                                    Bold
+                                  </CommandItem>
+                                  <CommandItem
+                                    value="Italic"
+                                    @click="
+                                      editor
+                                        .chain()
+                                        .focus()
+                                        .toggleItalic()
+                                        .run()
+                                    "
+                                    :class="{
+                                      'is-active': editor.isActive('italic'),
+                                    }"
+                                  >
+                                    Italic
+                                  </CommandItem>
+                                  <CommandItem
+                                    value="Add Image"
+                                    @click="addImageToEditor"
+                                  >
+                                    Add Image
+                                  </CommandItem>
+                                </CommandGroup>
+                              </CommandList>
+                            </CommandDialog>
+                          </div>
                           <div
                             class="w-full flex items-center justify-end gap-x-2 mt-5"
                           >
@@ -187,10 +236,14 @@
 
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
+import Bold from "@tiptap/extension-bold";
 import Heading from "@tiptap/extension-heading";
 import Image from "@tiptap/extension-image";
+import Italic from "@tiptap/extension-italic";
+import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/vue-3";
+import { useMagicKeys } from "@vueuse/core";
 import { Loader2, LogOut, Menu, Plus, X } from "lucide-vue-next";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
@@ -232,6 +285,11 @@ let editor = useEditor({
     StarterKit,
     Heading.configure({
       levels: [2, 3],
+    }),
+    Bold,
+    Italic,
+    Placeholder.configure({
+      placeholder: "Write something …",
     }),
     Image,
   ],
@@ -326,4 +384,21 @@ onBeforeUnmount(() => {
   }
 });
 isPublish.value = false;
+
+const open = ref(false);
+
+const { Meta_J, Ctrl_J } = useMagicKeys({
+  passive: false,
+  onEventFired(e) {
+    if (e.key === "j" && (e.metaKey || e.ctrlKey)) e.preventDefault();
+  },
+});
+
+watch([Meta_J, Ctrl_J], (v) => {
+  if (v[0] || v[1]) handleOpenChange();
+});
+
+function handleOpenChange() {
+  open.value = !open.value;
+}
 </script>
