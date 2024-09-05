@@ -90,7 +90,7 @@
                           <EditorContent :editor="editor" class="max-w-full" />
 
                           <div>
-                            <p class="text-sm text-muted-foreground">
+                            <p class="text-sm text-muted-foreground mt-5">
                               Press
                               <kbd
                                 class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100"
@@ -269,8 +269,8 @@ const isPublish = ref(false);
 const tags = ref([]);
 const title = ref("");
 const content = ref("");
-const img = ref("");
 const likes = ref(0);
+const imgUrl = ref("");
 
 onMounted(() => {
   const token = localStorage.getItem("token");
@@ -310,8 +310,8 @@ const handleFileUpload = async (event) => {
 
     try {
       const response = await client.uploadImage(formData);
-      const imageUrl = response.data.imageUrl;
-      console.log("Image uploaded successfully, URL:", imageUrl);
+      imgUrl.value = response.data.imageUrl;
+      console.log("Image uploaded successfully, URL:", imgUrl.value);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -339,7 +339,7 @@ const publishArticle = async () => {
       title: title.value,
       content: content.value,
       tags: tags.value,
-      img: img.value,
+      img: imgUrl.value,
       likes: likes.value,
       created: new Date(),
       updated: new Date(),
