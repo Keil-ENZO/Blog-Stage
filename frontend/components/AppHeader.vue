@@ -72,6 +72,12 @@
                           ref="fileInput"
                           @change="handleFileUpload"
                         />
+                        <p v-if="imgUrl">
+                          <img
+                            :src="imgUrl"
+                            class="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+                          />
+                        </p>
                         <TagsInput v-model="tags">
                           <TagsInputItem
                             v-for="item in tags"
@@ -191,6 +197,9 @@
                           </div>
                         </client-only>
                       </TabsContent>
+                      <p v-if="errorMessage" class="error-message">
+                        {{ errorMessage }}
+                      </p>
                     </Tabs>
                   </DialogHeader>
                 </DialogContent>
@@ -263,6 +272,8 @@ const navigation = ref([
   { name: "Contact", link: "/contact", current: false },
 ]);
 
+const errorMessage = ref("");
+
 const csrfToken = ref("");
 const isPublish = ref(false);
 
@@ -271,6 +282,14 @@ const title = ref("");
 const content = ref("");
 const likes = ref(0);
 const imgUrl = ref("");
+
+const open = ref(false);
+const { Meta_J, Ctrl_J } = useMagicKeys({
+  passive: false,
+  onEventFired(e) {
+    if (e.key === "j" && (e.metaKey || e.ctrlKey)) e.preventDefault();
+  },
+});
 
 onMounted(() => {
   const token = localStorage.getItem("token");
@@ -311,7 +330,6 @@ const handleFileUpload = async (event) => {
     try {
       const response = await client.uploadImage(formData);
       imgUrl.value = response.data.imageUrl;
-      console.log("Image uploaded successfully, URL:", imgUrl.value);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -331,9 +349,25 @@ const addImageToEditor = () => {
     console.error("Editor is not initialized or available.");
   }
 };
+
 const publishArticle = async () => {
   try {
     csrfToken.value = await client.getCsrfToken();
+
+    if (!title.value || !content.value || !tags.value || !imgUrl.value) {
+      errorMessage.value = "Title, content, tags and images are required.";
+      return;
+    }
+
+    if (title.value.length < 3) {
+      errorMessage.value = "Title is too short.";
+      return;
+    }
+
+    if (content.value.length < 50) {
+      errorMessage.value = "Content is too short.";
+      return;
+    }
 
     const articleData = {
       title: title.value,
@@ -378,22 +412,6 @@ const logout = async () => {
   }
 };
 
-onBeforeUnmount(() => {
-  if (editor.value) {
-    editor.value.destroy();
-  }
-});
-isPublish.value = false;
-
-const open = ref(false);
-
-const { Meta_J, Ctrl_J } = useMagicKeys({
-  passive: false,
-  onEventFired(e) {
-    if (e.key === "j" && (e.metaKey || e.ctrlKey)) e.preventDefault();
-  },
-});
-
 watch([Meta_J, Ctrl_J], (v) => {
   if (v[0] || v[1]) handleOpenChange();
 });
@@ -401,4 +419,12 @@ watch([Meta_J, Ctrl_J], (v) => {
 function handleOpenChange() {
   open.value = !open.value;
 }
+
+onBeforeUnmount(() => {
+  if (editor.value) {
+    editor.value.destroy();
+  }
+});
+
+isPublish.value = false;
 </script>

@@ -86,7 +86,7 @@ client
 
 function formatedDate(date) {
   const givenDate = new Date(date);
-  const tenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 10));
+  const tenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 7));
 
   if (givenDate < tenDaysAgo) {
     return format(givenDate, "dd MMMM yyyy", { locale: fr });

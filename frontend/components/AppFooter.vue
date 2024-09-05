@@ -18,6 +18,18 @@
               </li>
             </ul>
           </div>
+          <div class="mt-8 md:mt-0">
+            <h3 class="text-sm font-semibold leading-6 text-primary">Légal</h3>
+            <ul role="list" class="mt-6 space-y-4">
+              <li v-for="item in navigation.legal" :key="item.name">
+                <a
+                  :href="item.href"
+                  class="text-sm leading-6 text-ring hover:text-primary"
+                  >{{ item.name }}</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="mt-10 xl:mt-0">
           <h3 class="text-sm font-semibold leading-6 text-primary">
@@ -63,9 +75,18 @@ import { defineComponent, h } from "vue";
 const navigation = {
   navigation: [
     { name: "Home", href: "/" },
-    { name: "Entreprises", href: "/entreprise" },
-    { name: "Articles", href: "/article" },
+    { name: "Entreprises", href: "/entreprises" },
+    { name: "Articles", href: "/articles" },
     { name: "Contact", href: "/contact" },
+  ],
+
+  legal: [
+    { name: "Politique de Confidentialité", href: "/politiqueConfidentialite" },
+    {
+      name: "Conditions Générales d'Utilisation",
+      href: "/conditionsUtilisation",
+    },
+    { name: "Mentions Légales", href: "/mentionsLegales" },
   ],
 
   social: [
