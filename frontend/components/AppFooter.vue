@@ -69,7 +69,7 @@
 </template>
 
 <script setup>
-import { Github, Linkedin } from "lucide-vue-next";
+import { Github, Linkedin, Mail } from "lucide-vue-next";
 import { defineComponent, h } from "vue";
 
 const navigation = {
@@ -91,7 +91,12 @@ const navigation = {
 
   social: [
     {
-      nam: "LinkedIn",
+      name: "Mail",
+      href: "mailto:enzo.keil06@icloud.com",
+      icon: Mail,
+    },
+    {
+      name: "LinkedIn",
       href: "https://www.linkedin.com/feed/",
       icon: Linkedin,
     },

@@ -1436,7 +1436,7 @@
 
 "@tiptap/extension-bold@^2.6.6":
   version "2.6.6"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-bold/-/extension-bold-2.6.6.tgz#703cde9835c83d964c6284ae6ea7754b06cd2def"
+  resolved "https://registry.npmjs.org/@tiptap/extension-bold/-/extension-bold-2.6.6.tgz"
   integrity sha512-CD6gBhdQtCoqYSmx8oAV8gvKtVOGZSyyvuNYo7by9eZ56DqLYnd7kbUj0RH7o9Ymf/iJTOUJ6XcvrsWwo4lubg==
 
 "@tiptap/extension-bubble-menu@^2.6.6":
@@ -1490,7 +1490,7 @@
 
 "@tiptap/extension-heading@^2.6.6":
   version "2.6.6"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-heading/-/extension-heading-2.6.6.tgz#d68964d1b935457fe3168faf7ee690b1e5384e67"
+  resolved "https://registry.npmjs.org/@tiptap/extension-heading/-/extension-heading-2.6.6.tgz"
   integrity sha512-bgx9vptVFi5yFkIw1OI53J7+xJ71Or3SOe/Q8eSpZv53DlaKpL/TzKw8Z54t1PrI2rJ6H9vrLtkvixJvBZH1Ug==
 
 "@tiptap/extension-history@^2.6.6":
@@ -1505,12 +1505,12 @@
 
 "@tiptap/extension-image@^2.6.6":
   version "2.6.6"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-image/-/extension-image-2.6.6.tgz#d3c2b4c6234dc8d475a5ee534447605c4e1408d5"
+  resolved "https://registry.npmjs.org/@tiptap/extension-image/-/extension-image-2.6.6.tgz"
   integrity sha512-dwJKvoqsr72B4tcTH8hXhfBJzUMs/jXUEE9MnfzYnSXf+CYALLjF8r/IkGYbxce62GP/bMDoj8BgpF8saeHtqA==
 
 "@tiptap/extension-italic@^2.6.6":
   version "2.6.6"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-italic/-/extension-italic-2.6.6.tgz#18f1ec4461efca92ebe1bc6dfd79ec533d6bd68f"
+  resolved "https://registry.npmjs.org/@tiptap/extension-italic/-/extension-italic-2.6.6.tgz"
   integrity sha512-t7ZPsXqa8nJZZ/6D0rQyZ/KsvzLaSihC6hBTjUQ77CeDGV9PhDWjIcBW4OrvwraJDBd12ETBeQ2CkULJOgH+lQ==
 
 "@tiptap/extension-list-item@^2.6.6":
@@ -1530,7 +1530,7 @@
 
 "@tiptap/extension-placeholder@^2.6.6":
   version "2.6.6"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-placeholder/-/extension-placeholder-2.6.6.tgz#a4e7a0150f3ab1c685cca75b2ee8f6fb73fbda1a"
+  resolved "https://registry.npmjs.org/@tiptap/extension-placeholder/-/extension-placeholder-2.6.6.tgz"
   integrity sha512-J0ZMvF93NsRrt+R7IQ3GhxNq32vq+88g25oV/YFJiwvC48HMu1tQB6kG1I3LJpu5b8lN+LnfANNqDOEhiBfjaA==
 
 "@tiptap/extension-strike@^2.6.6":
@@ -2690,7 +2690,7 @@ csstype@^3.1.3:
 
 date-fns@^3.6.0:
   version "3.6.0"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-3.6.0.tgz#f20ca4fe94f8b754951b24240676e8618c0206bf"
+  resolved "https://registry.npmjs.org/date-fns/-/date-fns-3.6.0.tgz"
   integrity sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==
 
 db0@^0.1.4:
@@ -2900,6 +2900,11 @@ electron-to-chromium@^1.5.4:
   version "1.5.12"
   resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.12.tgz"
   integrity sha512-tIhPkdlEoCL1Y+PToq3zRNehUaKp3wBX/sr7aclAWdIWjvqAe/Im/H0SiCM4c1Q8BLPHCdoJTol+ZblflydehA==
+
+emailjs-com@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/emailjs-com/-/emailjs-com-3.2.0.tgz"
+  integrity sha512-Prbz3E1usiAwGjMNYRv6EsJ5c373cX7/AGnZQwOfrpNJrygQJ15+E9OOq4pU8yC977Z5xMetRfc3WmDX6RcjAA==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
