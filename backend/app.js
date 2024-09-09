@@ -31,7 +31,11 @@ app.use((req, res, next) => {
   }
 
   if (req.path === "/api/auth") {
-    return next(); // Passer la vérification CSRF pour cette route
+    return next();
+  }
+
+  if (req.path === "/api/newsletter") {
+    return next();
   }
 
   if (
@@ -62,6 +66,7 @@ app.use("/api/tag", require("./routes/tag"));
 app.use("/api/company", require("./routes/company"));
 app.use("/api/admin", require("./routes/user"));
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/newsletter", require("./routes/newsletter"));
 
 // Middleware pour la gestion des erreurs
 app.use((err, req, res, next) => {

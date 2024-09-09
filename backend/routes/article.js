@@ -1,14 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const { body, validationResult } = require("express-validator");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const Article = require("../models/Article");
 const authenticate = require("../authenticate");
+const axios = require("axios");
 
 // Configure multer pour gérer les fichiers en mémoire
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+
+const apiKey = process.env.BREVO_API_KEY || "your-api-key-here";
+const listId = process.env.BREVO_LIST_ID || 2;
+const templateId = process.env.BREVO_TEMPLATE_ID || 1;
 
 // Route pour uploader une image avec redimensionnement
 router.post("/upload-image", upload.single("image"), async (req, res) => {
@@ -50,6 +54,87 @@ router.post("/upload-image", upload.single("image"), async (req, res) => {
   }
 });
 
+// Fonction pour envoyer des emails
+const sendEmailToSubscribers = async (title, link) => {
+  try {
+    // Récupérer tous les abonnés de la liste
+    const { data: subscribers } = await axios.get(
+      `https://api.brevo.com/v3/contacts/lists/${listId}/contacts`,
+      {
+        headers: {
+          "api-key": apiKey,
+        },
+      }
+    );
+
+    // Récupérer les emails des abonnés
+    const emails = subscribers.contacts.map((contact) => contact.email);
+
+    // Envoyer l'email à tous les abonnés
+    await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: { name: "Enzo", email: "enzo.keil06@icloud.com" },
+        to: emails.map((email) => ({ email })),
+        templateId: templateId,
+        params: {
+          titleArticle: title,
+          linkArticle: link,
+          linkBlog: "http://localhost:3000",
+        },
+      },
+      {
+        headers: {
+          "api-key": apiKey,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("Email envoyé avec succès !");
+  } catch (error) {
+    console.error("Erreur lors de l'envoi des emails:", error);
+  }
+};
+
+// Route pour créer un nouvel article
+router.post("/", authenticate, async (req, res) => {
+  const { title, content, tags, img, likes } = req.body;
+
+  // Validation des données reçues
+  if (!title || !content || !tags) {
+    return res
+      .status(400)
+      .json({ message: "Title, content, and tags are required" });
+  }
+
+  try {
+    const newArticle = new Article({
+      title,
+      content,
+      tags,
+      img,
+      likes,
+      created: new Date(),
+      updated: new Date(),
+    });
+
+    const article = await newArticle.save();
+
+    await sendEmailToSubscribers(
+      article.title,
+      `http://localhost:3000/article/${article._id}`
+    );
+
+    res.status(201).json(article);
+  } catch (err) {
+    console.error("Error saving article:", err.message);
+    res
+      .status(500)
+      .json({ message: "Error saving article", error: err.message });
+  }
+});
+
 // Route pour obtenir tous les articles
 router.get("/", async (req, res) => {
   try {
@@ -72,38 +157,6 @@ router.get("/:id", async (req, res) => {
   } catch (err) {
     console.error("Error fetching article:", err.message);
     res.status(500).send("Server Error");
-  }
-});
-
-// Route pour créer un nouvel article
-router.post("/", authenticate, async (req, res) => {
-  const { title, content, tags, img, likes } = req.body;
-
-  // Validation des données reçues
-  if (!title || !content || !tags) {
-    return res
-      .status(400)
-      .json({ message: "Title, content, and tags are required" });
-  }
-
-  try {
-    const newArticle = new Article({
-      title,
-      content,
-      tags,
-      img, // Assure-toi que l'URL de l'image est bien incluse
-      likes,
-      created: new Date(),
-      updated: new Date(),
-    });
-
-    const article = await newArticle.save();
-    res.status(201).json(article); // Envoie la réponse avec un code de statut 201 (Créé)
-  } catch (err) {
-    console.error("Error saving article:", err.message);
-    res
-      .status(500)
-      .json({ message: "Error saving article", error: err.message });
   }
 });
 

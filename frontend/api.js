@@ -62,4 +62,8 @@ export default {
       },
     });
   },
+
+  subscribeNewsletter(email) {
+    return client.post("/newsletter", { email });
+  },
 };

@@ -13,8 +13,9 @@
                 <a
                   :href="item.href"
                   class="text-sm leading-6 text-ring hover:text-primary"
-                  >{{ item.name }}</a
                 >
+                  {{ item.name }}
+                </a>
               </li>
             </ul>
           </div>
@@ -25,8 +26,9 @@
                 <a
                   :href="item.href"
                   class="text-sm leading-6 text-ring hover:text-primary"
-                  >{{ item.name }}</a
                 >
+                  {{ item.name }}
+                </a>
               </li>
             </ul>
           </div>
@@ -38,12 +40,29 @@
           <p class="mt-2 text-sm leading-6 text-ring max-w-[400px]">
             Les dernières articles envoyés dans votre boîte de réception.
           </p>
-          <form class="mt-6 sm:flex sm:max-w-md">
+          <form
+            @submit.prevent="subscribeNewsletter"
+            class="mt-6 sm:flex sm:max-w-md"
+          >
             <div class="flex w-full max-w-sm items-center gap-1.5">
-              <Input id="email" type="email" placeholder="Email" />
-              <Button type="submit"> S'inscrire </Button>
+              <Input
+                id="email"
+                type="email"
+                placeholder="Email"
+                v-model="email"
+                class="form-input"
+                required
+              />
+              <Button type="submit" class="btn-primary">S'inscrire</Button>
             </div>
           </form>
+          <p
+            v-if="message"
+            :class="{ 'text-success': success, 'text-error': !success }"
+            class="mt-2 text-sm leading-6"
+          >
+            {{ message }}
+          </p>
         </div>
       </div>
       <div
@@ -70,8 +89,37 @@
 
 <script setup>
 import { Github, Linkedin, Mail } from "lucide-vue-next";
-import { defineComponent, h } from "vue";
+import { ref } from "vue";
+import client from "../api.js";
 
+const email = ref("");
+const message = ref("");
+const success = ref(false);
+
+const subscribeNewsletter = async () => {
+  if (!email.value) {
+    message.value = "L'email est requis.";
+    success.value = false;
+    return;
+  }
+  if (!email.value.includes("@") || !email.value.includes(".")) {
+    message.value = "Veuillez entrer une adresse email valide.";
+    success.value = false;
+    return;
+  }
+
+  try {
+    await client.subscribeNewsletter(email.value);
+    email.value = "";
+    message.value = "Vous êtes maintenant inscrit à la newsletter.";
+    success.value = true;
+  } catch (error) {
+    message.value = "Une erreur est survenue, veuillez réessayer.";
+    success.value = false;
+  }
+};
+
+// Navigation pour le footer
 const navigation = {
   navigation: [
     { name: "Home", href: "/" },
@@ -79,7 +127,6 @@ const navigation = {
     { name: "Articles", href: "/articles" },
     { name: "Contact", href: "/contact" },
   ],
-
   legal: [
     { name: "Politique de Confidentialité", href: "/politiqueConfidentialite" },
     {
@@ -88,23 +135,14 @@ const navigation = {
     },
     { name: "Mentions Légales", href: "/mentionsLegales" },
   ],
-
   social: [
-    {
-      name: "Mail",
-      href: "mailto:enzo.keil06@icloud.com",
-      icon: Mail,
-    },
+    { name: "Mail", href: "mailto:enzo.keil06@icloud.com", icon: Mail },
     {
       name: "LinkedIn",
       href: "https://www.linkedin.com/feed/",
       icon: Linkedin,
     },
-    {
-      name: "GitHub",
-      href: "https://github.com/Keil-ENZO",
-      icon: Github,
-    },
+    { name: "GitHub", href: "https://github.com/Keil-ENZO", icon: Github },
     {
       name: "X",
       href: "https://x.com/Keil_ENZO",
@@ -120,3 +158,9 @@ const navigation = {
   ],
 };
 </script>
+
+<style>
+.text-error {
+  color: red;
+}
+</style>
