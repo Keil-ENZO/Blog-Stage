@@ -128,12 +128,15 @@ const navigation = {
     { name: "Contact", href: "/contact" },
   ],
   legal: [
-    { name: "Politique de Confidentialité", href: "/politiqueConfidentialite" },
+    {
+      name: "Politique de Confidentialité",
+      href: "/politique-confidentialite",
+    },
     {
       name: "Conditions Générales d'Utilisation",
-      href: "/conditionsUtilisation",
+      href: "/conditions-utilisation",
     },
-    { name: "Mentions Légales", href: "/mentionsLegales" },
+    { name: "Mentions Légales", href: "/mentions-legales" },
   ],
   social: [
     { name: "Mail", href: "mailto:enzo.keil06@icloud.com", icon: Mail },
