@@ -35,6 +35,7 @@ router.post(
   [body("country").notEmpty().withMessage("Country is required")],
   [body("director").notEmpty().withMessage("Director is required")],
   [body("dateDuring").notEmpty().withMessage("DateDuring is required")],
+  [body("imgUrl").notEmpty().withMessage("Img is required")],
   authenticate,
   async (req, res) => {
     const errors = validationResult(req);
@@ -42,7 +43,8 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, description, city, country, director, dateDuring } = req.body;
+    const { name, description, city, country, director, dateDuring, imgUrl } =
+      req.body;
     try {
       const newCompany = new Company({
         name,
@@ -51,6 +53,7 @@ router.post(
         country,
         director,
         dateDuring,
+        imgUrl,
       });
       const company = await newCompany.save();
       res.json(company);

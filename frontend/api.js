@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const client = axios.create({
-  baseURL: "http://109.176.197.108:3001/api",
+  // baseURLProd: "http://109.176.197.108:3001/api",
+  baseURL: "http://localhost:3001/api",
 });
 
 export default {
@@ -22,6 +23,17 @@ export default {
 
   getCompany(id) {
     return client.get(`/company/${id}`);
+  },
+
+  addCompany(company, csrfToken) {
+    const token = "VALID_TOKEN";
+
+    return client.post("/company", company, {
+      headers: {
+        Authorization: token,
+        "X-Csrf-Token": csrfToken,
+      },
+    });
   },
 
   getTags() {

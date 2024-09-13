@@ -386,8 +386,7 @@ const publishArticle = async () => {
     window.location.href = `/article/${response.data._id}`;
     isPublish.value = true;
   } catch (error) {
-    console.error("Error publishing article:", error);
-    alert("An error occurred while publishing the article");
+    errorMessage.value = "Error adding article";
     isPublish.value = false;
   }
 };

@@ -19,8 +19,8 @@
 
          <div class="relative mt-8 flex items-center gap-x-4 mb-5 sm:mb-0">
               <img
-                src="/assets/img/kevin.jpg"
-                alt=""
+                :src="company.imgUrl"
+                :alt="company.name"
                 class="h-10 w-10 rounded-full bg-ring"
               />
               <div class="text-sm leading-6">

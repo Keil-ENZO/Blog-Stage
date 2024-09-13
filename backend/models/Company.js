@@ -26,6 +26,10 @@ const CompanySchema = new moogoose.Schema({
     type: String,
     required: true,
   },
+  imgUrl: {
+    type: String,
+    required: false,
+  },
 });
 
 module.exports = moogoose.model("Company", CompanySchema);
