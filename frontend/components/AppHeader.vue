@@ -5,12 +5,12 @@
         <div class="flex">
           <div class="-ml-2 mr-2 flex items-center md:hidden">
             <DisclosureButton
-              :id="'main-menu-' + (open ? 'open' : 'closed')"
+              :id="'main-menu-' + (slotOpen ? 'open' : 'closed')"
               class="relative inline-flex items-center justify-center rounded-md p-2 text-ring hover:bg-gray-700 hover:text-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
             >
               <span class="absolute -inset-0.5" />
               <span class="sr-only">Open main menu</span>
-              <Menu v-if="!open" class="block h-6 w-6" aria-hidden="true" />
+              <Menu v-if="!slotOpen" class="block h-6 w-6" aria-hidden="true" />
               <X v-else class="block h-6 w-6" aria-hidden="true" />
             </DisclosureButton>
           </div>
@@ -286,6 +286,7 @@ const imgUrl = ref("");
 const tips = ref("");
 
 const open = ref(false);
+
 const { Meta_J, Ctrl_J } = useMagicKeys({
   passive: false,
   onEventFired(e) {
