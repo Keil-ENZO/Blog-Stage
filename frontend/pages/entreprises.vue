@@ -220,7 +220,7 @@ client
     companies.value = response.data;
   })
   .catch((error) => {
-    console.log(error);
+    alert("An error occurred while fetching companies" + error);
   });
 
 isPublish.value = false;

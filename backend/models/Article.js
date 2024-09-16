@@ -21,6 +21,10 @@ const ArticleSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  tips: {
+    type: String,
+    required: false,
+  },
   created: {
     type: Date,
     default: Date.now,

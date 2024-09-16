@@ -99,10 +99,9 @@ const sendEmailToSubscribers = async (title, link) => {
 
 // Route pour créer un nouvel article
 router.post("/", authenticate, async (req, res) => {
-  const { title, content, tags, img, likes } = req.body;
+  const { title, content, tags, img, likes, tips } = req.body;
 
-  // Validation des données reçues
-  if (!title || !content || !tags) {
+  if (!title || !content || !tags || !tips) {
     return res
       .status(400)
       .json({ message: "Title, content, and tags are required" });
@@ -115,6 +114,7 @@ router.post("/", authenticate, async (req, res) => {
       tags,
       img,
       likes,
+      tips,
       created: new Date(),
       updated: new Date(),
     });

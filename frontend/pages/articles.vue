@@ -77,8 +77,9 @@ const articles = ref([]);
 client
   .getArticles()
   .then((response) => {
-    articles.value = response.data;
-    console.log(response.data);
+    articles.value = response.data.sort(
+      (a, b) => new Date(b.created) - new Date(a.created)
+    );
   })
   .catch((error) => {
     alert("An error occurred while fetching articles" + error);

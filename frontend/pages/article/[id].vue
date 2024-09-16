@@ -36,6 +36,17 @@
         <div v-html="article.content"></div>
         <!-- <p>{{ article.content }}</p> -->
       </div>
+
+      <Alert
+        class="border-border border p-8 rounded-md flex flex-col max-w-3xl mt-12"
+      >
+        <AlertTitle class="mb-3 font-medium text-lg leading-none tracking-tight"
+          >💡 Tips</AlertTitle
+        >
+        <AlertDescription class="text-sm font-light">
+          {{ article.tips }}
+        </AlertDescription>
+      </Alert>
     </div>
   </div>
 </template>
@@ -52,7 +63,6 @@ const article = ref({});
 
 client.getArticle(articleId).then((response) => {
   article.value = response.data;
-  console.log(article.value.created);
 });
 
 function formatedDate(date) {

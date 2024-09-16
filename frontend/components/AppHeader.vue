@@ -67,6 +67,7 @@
                           placeholder="Title"
                           v-model="title"
                         />
+                        <Input type="text" placeholder="Tips" v-model="tips" />
                         <Input
                           type="file"
                           ref="fileInput"
@@ -282,6 +283,7 @@ const title = ref("");
 const content = ref("");
 const likes = ref(0);
 const imgUrl = ref("");
+const tips = ref("");
 
 const open = ref(false);
 const { Meta_J, Ctrl_J } = useMagicKeys({
@@ -375,6 +377,7 @@ const publishArticle = async () => {
       tags: tags.value,
       img: imgUrl.value,
       likes: likes.value,
+      tips: tips.value,
       created: new Date(),
       updated: new Date(),
     };
@@ -407,7 +410,6 @@ const logout = async () => {
     localStorage.removeItem("token");
     isAuthenticated.value = false;
     window.location.href = "/";
-    console.log("User logged out");
   }
 };
 
