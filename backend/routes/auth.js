@@ -23,6 +23,7 @@ router.post(
 
     try {
       const user = await User.findOne({ username });
+      console.log("Utilisateur trouvé :", user); // Vérifiez si l'utilisateur est trouvé
 
       // Vérifiez si l'utilisateur existe et a le rôle d'admin
       if (!user || user.role !== "admin") {
@@ -32,6 +33,7 @@ router.post(
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
+      console.log("Correspondance du mot de passe :", isMatch); // Vérifiez la correspondance
 
       if (!isMatch) {
         return res.status(400).send("Invalid credentials");

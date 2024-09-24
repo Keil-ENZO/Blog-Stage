@@ -2,7 +2,7 @@ import axios from "axios";
 
 const client = axios.create({
   // baseURLProd: "http://109.176.197.108:3001/api",
-  baseURL: "http://localhost:3001/api",
+  baseURL: "https://api.keilenzoblog.fr/api",
 });
 
 export default {

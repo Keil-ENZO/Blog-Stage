@@ -95,7 +95,10 @@
           v-for="company in companies"
           :key="company._id"
         >
-          <a :href="`/entreprise/${company._id}`" class="cursor-pointer">
+          <a
+            @click.prevent="viewEntreprise(company._id)"
+            class="cursor-pointer"
+          >
             <div class="flex items-center gap-x-4 text-xs">
               <time datetime="2020-03-16" class="text-ring">{{
                 company.dateDuring
@@ -220,8 +223,12 @@ client
     companies.value = response.data;
   })
   .catch((error) => {
-    alert("An error occurred while fetching companies" + error);
+    console.log("An error occurred while fetching companies" + error);
   });
+
+function viewEntreprise(id) {
+  window.location.href = `/entreprise?id=${id}`;
+}
 
 isPublish.value = false;
 </script>

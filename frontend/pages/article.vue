@@ -58,7 +58,7 @@ import { useRoute } from "vue-router";
 import client from "../api.js";
 
 const route = useRoute();
-const articleId = route.params.id;
+const articleId = route.query.id;
 const article = ref({});
 
 client.getArticle(articleId).then((response) => {

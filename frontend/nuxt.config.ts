@@ -2,27 +2,24 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt"],
 
   shadcn: {
-    /**
-     * Prefix for all the imported component
-     */
     prefix: "",
-    /**
-     * Directory that the component lives in.
-     * @default "./components/ui"
-     */
     componentDir: "./components/ui",
   },
 
   compatibilityDate: "2024-07-16",
 
-  // Ajoutez cette section pour vérifier que les fichiers statiques sont correctement servis
+  // Configuration du build
   build: {
-    // Assurez-vous que les fichiers de build sont générés correctement
+    // Nuxt 3 gère automatiquement les optimisations de build
   },
 
+  // Configuration pour la génération statique
   generate: {
-    // Vous pouvez ajouter des configurations spécifiques ici si nécessaire
-    // Par exemple, pour exclure certaines routes
-    exclude: [],
+    // Plus besoin de spécifier `fallback`, Nuxt gère automatiquement la page 404
+  },
+
+  // Configuration de l'application
+  app: {
+    baseURL: "/", // Définir la base de votre URL si nécessaire
   },
 });

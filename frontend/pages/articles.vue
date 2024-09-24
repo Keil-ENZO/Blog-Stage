@@ -16,48 +16,25 @@
         <article v-for="article in articles" :key="article._id">
           <a
             class="flex flex-col items-start justify-between cursor-pointer"
-            :href="`/article/${article._id}`"
+            @click.prevent="viewArticle(article._id)"
           >
             <div class="relative w-full">
               <img
                 :src="article.img"
-                :alt="article.img"
+                :alt="article.title"
                 class="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
-              />
-              <div
-                class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"
               />
             </div>
             <div class="w-full">
-              <div
-                class="w-full flex flex-col md:flex-row justify-between md:items-center"
+              <h3
+                class="mt-5 text-lg font-semibold line-clamp-3 leading-6 text-primary"
               >
-                <div class="mt-8 flex items-center gap-x-4 text-xs">
-                  <time :datetime="article.created" class="text-ring">
-                    {{ formatedDate(article.created) }}
-                  </time>
-                </div>
-                <div class="flex gap-2 flex-wrap">
-                  <Badge
-                    variant="secondary"
-                    class="relative z-10 rounded-full bg-accent px-3 py-1.5 font-medium text-secondary-forground mt-5"
-                    v-for="tag in article.tags"
-                  >
-                    {{ tag }}
-                  </Badge>
-                </div>
-              </div>
-              <div class="group relative">
-                <h3
-                  class="mt-5 text-lg font-semibold line-clamp-3 leading-6 text-primary"
-                >
-                  {{ article.title }}
-                </h3>
-                <p
-                  class="mt-3 line-clamp-3 text-sm leading-6 text-ring lowercase"
-                  v-html="formatContent(article.content)"
-                ></p>
-              </div>
+                {{ article.title }}
+              </h3>
+              <p
+                class="mt-3 line-clamp-3 text-sm leading-6 text-ring lowercase"
+                v-html="formatContent(article.content)"
+              ></p>
             </div>
           </a>
         </article>
@@ -67,9 +44,7 @@
 </template>
 
 <script setup>
-import { format, formatDistanceToNow } from "date-fns";
-import { fr } from "date-fns/locale";
-
+import { ref } from "vue";
 import client from "../api.js";
 
 const articles = ref([]);
@@ -82,8 +57,12 @@ client
     );
   })
   .catch((error) => {
-    alert("An error occurred while fetching articles" + error);
+    console.log("An error occurred while fetching articles" + error);
   });
+
+function viewArticle(id) {
+  window.location.href = `/article?id=${id}`;
+}
 
 function formatedDate(date) {
   const givenDate = new Date(date);

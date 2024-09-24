@@ -1,6 +1,7 @@
 <script setup>
-import { saveAs } from "file-saver";
+import pkg from "file-saver";
 import { Download } from "lucide-vue-next";
+const { saveAs } = pkg;
 
 async function downloadCV() {
   try {
@@ -104,18 +105,22 @@ async function downloadCV() {
         <h3 class="text-3xl mb-12">Qui suis-je ?</h3>
 
         <p>
-          Bonjour tout le monde, je m’appelle KEIL Enzo, étudiant en deuxième
-          Année de Bachelor en informatique à l’école Sophia Ynov Campus. Je
-          suis quelqu’un de très déterminé dans ce que je fais avec une envie de
-          toujours en apprendre plus. Je suis passionné par le développement web
-          depuis maintenant trois ans et j’envisage d’en faire mon métier dans
-          les prochaines années. Mon intérêt pour le métier de développeur web a
-          commencé lors d’une discussion avec un membre de ma famille,
-          développeur web frontend depuis huit ans. J’ai commencé à m’intéresser
-          sérieusement au développement web au lycée, en Terminale STI2D à
-          Grasse, une ville sur la Côte d’Azur. Là, j’ai appris les bases de
-          L’HTML et du CSS à travers différents projets. Chez moi, après le
-          lycée, je pratiquais sur un vieux ordinateur, un MacBook Air de 2010.
+          Bonjour tout le monde, je m’appelle KEIL Enzo, étudiant en troisième
+          année de Bachelor année de Bachelor en informatique à l’école Sophia
+          Ynov Campus. Je suis quelqu’un de très déterminé dans ce que je fais
+          avec une envie de toujours en apprendre plus. Je suis passionné par le
+          développement web depuis maintenant trois ans et j’envisage d’en faire
+          mon métier dans les prochaines années. Mon intérêt pour le métier de
+          développeur web a commencé lors d’une discussion avec un membre de ma
+          famille, développeur web frontend depuis huit ans.
+          <br />
+          <br />
+
+          J’ai commencé à m’intéresser sérieusement au développement web au
+          lycée, en Terminale STI2D à Grasse, une ville située sur la Côte
+          d’Azur. J’ai appris les bases de l’HTML et du CSS à travers différents
+          projets. Chez moi, après le lycée, je pratiquais sur un vieil
+          ordinateur, un MacBook Air de 2010.
         </p>
 
         <div class="w-full flex justify-center mt-16">
@@ -136,13 +141,19 @@ async function downloadCV() {
           >
           , toujours dans l’objectif de découvrir de nouvelles choses en
           informatique. Cela fait maintenant deux ans que je suis dans cette
-          école, où j’ai pu apprendre diverses compétences en informatique, et
-          tout particulièrement en développement web. Je vais maintenant entrer
-          dans ma troisième année avec le choix d’une spécialité qui sera, dans
-          mon cas, le 'Développement'. De plus, il va y avoir un grand
-          changement, car nous pourrons aussi devenir alternants dans une
-          entreprise. Je vous ai parlé de moi en détail, maintenant je vous
-          laisse découvrir mon blog. J’espère que cela vous plaira.
+          école, où j’ai pu m’enrichir de diverses compétences en informatique,
+          et tout particulièrement en développement web. Je vais maintenant
+          entrer dans ma troisième année avec le choix d’une spécialité qui
+          sera, dans mon cas, le ‘Développement’.
+          <br />
+          <br />
+          De plus, cette troisième année est synonyme de grand changement pour
+          moi car je deviens alternant au sein de l’entreprise ACOSS située à
+          Sophia Antipolis.
+          <br />
+          <br />
+          Je vous ai parlé de moi en détail, maintenant je vous laisse découvrir
+          mon blog. J’espère que cela vous plaira.
         </p>
 
         <p class="mb-16">À bientôt ! 👋</p>
