@@ -41,7 +41,7 @@
       <div
         class="mx-auto max-w-3xl lg:mx-0 flex flex-col-reverse sm:flex-row justify-between w-full mt-12"
       >
-        <p>{{ company.description }}</p>
+        <p v-html="company.description"></p>
       </div>
     </div>
   </div>

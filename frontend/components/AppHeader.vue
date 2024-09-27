@@ -94,7 +94,10 @@
                       </TabsContent>
                       <TabsContent value="secondStep">
                         <client-only class="relative max-w-full">
-                          <EditorContent :editor="editor" class="max-w-full" />
+                          <EditorContent
+                            :editor="editor"
+                            class="max-w-full overflow-y-scroll max-h-[300px]"
+                          />
 
                           <div>
                             <p class="text-sm text-muted-foreground mt-5">
@@ -112,6 +115,17 @@
                               <CommandList>
                                 <CommandEmpty>No results found.</CommandEmpty>
                                 <CommandGroup heading="Tools">
+                                  <CommandItem
+                                    @click="
+                                      editor
+                                        .chain()
+                                        .focus()
+                                        .setHardBreak()
+                                        .run()
+                                    "
+                                  >
+                                    Set hard break
+                                  </CommandItem>
                                   <CommandItem
                                     value="H3"
                                     @click="
@@ -247,6 +261,7 @@
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import Bold from "@tiptap/extension-bold";
+import HardBreak from "@tiptap/extension-hard-break";
 import Heading from "@tiptap/extension-heading";
 import Image from "@tiptap/extension-image";
 import Italic from "@tiptap/extension-italic";
@@ -314,6 +329,7 @@ let editor = useEditor({
       placeholder: "Write something …",
     }),
     Image,
+    HardBreak,
   ],
   content: content.value,
   onUpdate: ({ editor }) => {
@@ -387,7 +403,7 @@ const publishArticle = async () => {
       articleData,
       csrfToken.value.data.csrfToken
     );
-    window.location.href = `/article/${response.data._id}`;
+    window.location.href = `/article?id=${response.data._id}`;
     isPublish.value = true;
   } catch (error) {
     errorMessage.value = "Error adding article";

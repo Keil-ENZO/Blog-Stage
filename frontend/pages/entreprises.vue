@@ -187,7 +187,7 @@ const publishCompany = async () => {
       csrfToken.value.data.csrfToken
     );
 
-    window.location.href = `/entreprise/${response.data._id}`;
+    window.location.href = `/entreprise?id=${response.data._id}`;
 
     isPublish.value = true;
   } catch (error) {

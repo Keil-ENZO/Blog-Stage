@@ -36,6 +36,11 @@
                 v-html="formatContent(article.content)"
               ></p>
             </div>
+            <div class="w-full flex flex-row-reverse mt-5">
+              <time :datetime="article.created" class="text-ring text-xs">
+                {{ formatedDate(article.created) }}
+              </time>
+            </div>
           </a>
         </article>
       </div>
@@ -44,6 +49,8 @@
 </template>
 
 <script setup>
+import { format, formatDistanceToNow, isValid } from "date-fns";
+import { fr } from "date-fns/locale";
 import { ref } from "vue";
 import client from "../api.js";
 
@@ -66,7 +73,13 @@ function viewArticle(id) {
 
 function formatedDate(date) {
   const givenDate = new Date(date);
-  const tenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 7));
+
+  if (!isValid(givenDate)) {
+    return;
+  }
+
+  const tenDaysAgo = new Date();
+  tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
 
   if (givenDate < tenDaysAgo) {
     return format(givenDate, "dd MMMM yyyy", { locale: fr });
