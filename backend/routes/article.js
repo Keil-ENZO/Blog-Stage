@@ -80,7 +80,7 @@ const sendEmailToSubscribers = async (title, link) => {
         params: {
           titleArticle: title,
           linkArticle: link,
-          linkBlog: "http://localhost:3000",
+          linkBlog: `https://keilenzoblog.fr/`,
         },
       },
       {
@@ -123,7 +123,7 @@ router.post("/", authenticate, async (req, res) => {
 
     await sendEmailToSubscribers(
       article.title,
-      `http://localhost:3000/article/${article._id}`
+      `https://keilenzoblog.fr/article?id=${article._id}`
     );
 
     res.status(201).json(article);
